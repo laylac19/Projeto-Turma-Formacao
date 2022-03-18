@@ -1,5 +1,6 @@
 
 $corLaranja: #e48730;
+$corVerde: #b9f03a;
 $corPreta: rgb(30, 30, 30);
 $corTransparente: rgba(0, 0, 0, 0);
 $sombra: 0 4px 8px 0 rgba(0, 0, 0, 0.329);
@@ -72,7 +73,9 @@ $sombra: 0 4px 8px 0 rgba(0, 0, 0, 0.329);
 }
 
 .botao-acao{
-    text-align: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 .coluna-menor{

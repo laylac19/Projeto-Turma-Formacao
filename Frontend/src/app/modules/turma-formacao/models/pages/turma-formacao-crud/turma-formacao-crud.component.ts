@@ -21,21 +21,24 @@ export class TurmaFormacaoCrudComponent implements OnInit {
 
   display: boolean = false;
   colab: boolean = false;
-  turmas:TurmaFormacaoModel[] = [];
-  turmaFormacaoModel: TurmaFormacaoModel;
   succes: boolean = false;
   displayAlt: boolean = false;
-  turmaDetalhada: TurmaFormacaoModel;
-  turmaColaboradorCompetencia: TurmaColaboradorCompetenciaNivelModel;
+
+  turmas:TurmaFormacaoModel[] = [];
   turmaColaboradorCompetenciaList:TurmaColaboradorCompetenciaNivelModel[] = [];
   colaboradoresDisponiveis:  ColaboradorListaModel[] =[];
   colaboradoresTotal:ColaboradorListaModel[] = [];
   competenciasTotal: CompetenciaListaModel[] = [];
   competenciasDisponiveis: CompetenciaListaModel[] = [];
   colaboradorCompetenciaHolder: TurmaColaboradorCompetenciaNivelModel[] = [];
+
+  turmaFormacaoModel: TurmaFormacaoModel;
+  turmaDetalhada: TurmaFormacaoModel;
+  turmaColaboradorCompetencia: TurmaColaboradorCompetenciaNivelModel;
   colaboradorHolder: TurmaColaboradorCompetenciaNivelModel;
   colaboradorDropDown: ColaboradorListaModel ;
   competenciaDropDown: CompetenciaListaModel;
+
   inputNomeTurma: String;
   inputDescricaoTurma: String;
   statusDisponiveis: any[] = [];  
@@ -53,11 +56,7 @@ export class TurmaFormacaoCrudComponent implements OnInit {
 
 constructor(private turmaFormacaoService: turmaFormacaoService, private messageService: MessageService) {}
 
-
-
-
 //Mostrar modais
-
 showDialog(){
   this.display = true;
 }
@@ -78,24 +77,20 @@ private showSucessFinalizada(){
   this.messageService.add({severity:'success', summary: 'Sucesso', detail:'turma finalizadda'});
 }
 
-
-
 showDialogAlt(turma: TurmaFormacaoModel){
   this.displayAlt = true;
-this.turmaDetalhada = turma;
-this.inputDescricaoTurma = turma.descricao;
-this.inputNomeTurma = turma.nome;
+  this.turmaDetalhada = turma;
+  this.inputDescricaoTurma = turma.descricao;
+  this.inputNomeTurma = turma.nome;
 }
 
-teste(evento){
-  console.log(evento.value.statusNome);
+// teste(evento){
+//   console.log(evento.value.statusNome);
    
-}
+// }
 
 //Listar 
-
 listarTurmas(){
-
   this.turmaFormacaoService.obterTodasTurmasComURL().subscribe(turmas => {
       this.turmas = turmas;
   })
@@ -108,13 +103,10 @@ listarTurmas(){
 
 }
 
-
 listarColaboradoresAutoComplete(){
 this.turmaFormacaoService.listarColaborador().subscribe(colaborador => {
   this.colaboradoresTotal = colaborador;
 })
-
-
 
 }
 
@@ -122,8 +114,6 @@ listarCompetenciasAutoComplete(){
   this.turmaFormacaoService.listarCompetencia().subscribe(competencia => {
     this.competenciasTotal = competencia;
   })
-  
-  
   }
 
 listarTurmaColaboradorCompetencia(turmaId: number){
@@ -147,7 +137,6 @@ listarTurmaColaboradorCompetencia(turmaId: number){
 }
 
 //inserir
-
 inserirTurma(){
   this.turmaFormacaoModel = new TurmaFormacaoModel(this.inputNomeTurma,this.inputDescricaoTurma,null,null,1, null);
   this.inputNomeTurma = null;
@@ -164,7 +153,6 @@ inserirTurma(){
 }
 
 inserirListaColaborador(turmaId:number){
-
   let turmaColaboradoresTemp: TurmaColaboradorCompetenciaModel[] = [];
     this.turmaFormacaoService.listarTurmaColaboradorCompetencia(turmaId).subscribe(colaboradoresTurma => {
       turmaColaboradoresTemp = colaboradoresTurma;
@@ -187,7 +175,6 @@ inserirListaColaborador(turmaId:number){
 }
 
 inserirListaColaboradorSemLimpar(turmaId:number){
-
   let turmaColaboradoresTemp: TurmaColaboradorCompetenciaModel[] = [];
     this.turmaFormacaoService.listarTurmaColaboradorCompetencia(turmaId).subscribe(colaboradoresTurma => {
       turmaColaboradoresTemp = colaboradoresTurma;
@@ -222,10 +209,6 @@ inserirTurmaIniciando(){
   this.succes = true;
 
 }
-
-
-
-  
 
 inserirColaboradorCompetenciaHolder(){
   let colaboradorObj = null;

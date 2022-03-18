@@ -23,7 +23,7 @@ public class StatusService {
 
     public StatusDTO buscarStatusPorId(Integer id) {
         Status status = repository.findById(id)
-                .orElseThrow(()-> new RegraNegocioException("Status não encontrada"));
+                .orElseThrow(()-> new RegraNegocioException("Status não encontrado"));
         return mapper.toDto(status);
     }
 

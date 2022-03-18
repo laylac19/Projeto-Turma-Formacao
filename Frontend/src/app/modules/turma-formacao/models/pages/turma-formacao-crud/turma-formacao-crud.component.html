@@ -73,9 +73,6 @@
 
     </p-dialog>
 
-
-
-    
         <p-table #dt [value]="turmas"  [rows]="15"  [paginator]="true">
             <ng-template pTemplate="caption">
                 <button pButton class="new-button" id="botaoDisplay" icon="pi pi-plus" label="Nova turma" iconPos="left" (click)="showDialog()"> </button>
@@ -108,7 +105,8 @@
                     <td >{{turma.descricao}}</td>
                     <td >{{turma.statusNome}}</td>
                     <td class="botao-acao">
-                        <button pButton  icon="ui-icon-pencil" pTooltip="Alterar turma"  (click)="showDialogAlt(turma); listarTurmaColaboradorCompetencia(turma.id)" ></button>
+                        <button pButton icon="ui-icon-pencil" pTooltip="Alterar turma"  (click)="showDialogAlt(turma); listarTurmaColaboradorCompetencia(turma.id)" ></button>
+                        <button pButton icon="ui-icon-trash" pTooltip="Deletar turma"></button>
                     </td>
                 </tr>
             </ng-template>

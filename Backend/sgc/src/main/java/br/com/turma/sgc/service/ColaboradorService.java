@@ -91,6 +91,7 @@ public class ColaboradorService {
         return colaboradorMapper.toDto(colaborador);
     }
 
+    //??????????????
     private void salvarCompetencias(Colaborador colaborador, List<CadastrarCompetenciaDTO> competencias){
         List<Integer> idsCompetencias = new ArrayList<>(Collections.singletonList(-1));
         idsCompetencias.addAll(competencias.stream().map(CadastrarCompetenciaDTO::getId).collect(Collectors.toList()));
@@ -110,6 +111,8 @@ public class ColaboradorService {
     }
 
     public void deletar(int id){
+        if(!(repository.findById(id).isPresent()))
+            throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);
         repository.deleteById(id);
     }
 
@@ -119,7 +122,6 @@ public class ColaboradorService {
         return colaboradorMapper.toDto(colaborador);
     }
 
-    //OK
     public List<ColaboradorDTO> buscarColaboradorPraAplicarCompeteciaPorId(@PathVariable Integer idCompetencia) {
         Optional<Colaborador> obj = repository.findById(idCompetencia);
         if(obj.isPresent())

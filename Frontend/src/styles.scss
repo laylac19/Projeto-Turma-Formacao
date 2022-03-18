@@ -508,9 +508,12 @@ tbody tr.ng-star-inserted td.botao-acao {
 }
 
 .botao-acao-icon {
-    width: 50%;
-    display: inline-block;
-    text-align: center;
+    // width: 50%;
+    // display: inline-block;
+    // text-align: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 .botao-novo {
@@ -527,7 +530,7 @@ body .layout-wrapper.layout-compact .ui-table-caption {
 }
 
 .coluna-acao {
-    width: 15%;
+    width: 10%;
 }
 
 .coluna-senioridade {
