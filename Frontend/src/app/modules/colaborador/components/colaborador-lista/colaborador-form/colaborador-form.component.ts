@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageService, SelectItem } from 'primeng/api';
@@ -7,6 +7,7 @@ import { CompetenciaService } from 'src/app/modules/competencia/service/competen
 import { SenioridadeModel } from 'src/app/shared/model/senioridade.model';
 import { CadastrarColaboradorModel } from '../../../models/cadastro-colaborador.model';
 import { ColaboradorService } from '../../../service/colaborador.service';
+import {FileUpload} from "primeng";
 
 @Component({
   selector: 'app-colaborador-form',
@@ -15,6 +16,9 @@ import { ColaboradorService } from '../../../service/colaborador.service';
 })
 export class ColaboradorFormComponent implements OnInit {
   @Output() atualizaListaColaborador: EventEmitter<boolean> = new EventEmitter();
+
+  @ViewChild('upload') uploadImg: FileUpload;
+
   file: FileReader = new FileReader();
 
   colaborador: CadastrarColaboradorModel;
@@ -25,11 +29,11 @@ export class ColaboradorFormComponent implements OnInit {
 
   image;
 
-  listaCompetencia: Array<CadastrarCompetenciaModel> = new Array();
+  listaCompetencia: Array<CadastrarCompetenciaModel> = [];
 
-  listaCompetenciaSelecionado: Array<CadastrarCompetenciaModel> = new Array();
+  listaCompetenciaSelecionado: Array<CadastrarCompetenciaModel> = [];
 
-  listaSenioridade: Array<SenioridadeModel> = new Array();
+  listaSenioridade: Array<SenioridadeModel> = [];
 
   dropdownCompetencia: SelectItem[];
 
@@ -62,8 +66,8 @@ export class ColaboradorFormComponent implements OnInit {
   salvarColaborador(): void {
     if (!this.colaborador) {
       this.inserirColaborador();
-      return
-    };
+      return;
+    }
     this.atualizarColaborador();
 
   }
@@ -80,7 +84,7 @@ export class ColaboradorFormComponent implements OnInit {
         this.image = this.sanitizer.bypassSecurityTrustUrl('data:image/ext;base64,' + res.foto);
       },
       err => console.error(err)
-    )
+    );
   }
 
   limparFormulario(): void {
@@ -90,6 +94,8 @@ export class ColaboradorFormComponent implements OnInit {
     this.image = null;
     this.competenciaId = null;
     this.nivelId = null;
+    this.file = new FileReader();
+    this.uploadImg.clear();
   }
 
   adicionarListaCompetencia(): void {

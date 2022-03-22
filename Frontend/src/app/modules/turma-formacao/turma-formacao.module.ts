@@ -19,29 +19,31 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {CheckboxModule} from 'primeng/checkbox';
 import {DropdownModule} from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import {ConfirmDialogModule} from "primeng";
 
 
 
 @NgModule({
   declarations: [TurmaFormacaoCrudComponent],
-  imports: [
-    CommonModule,
-    TurmaFormacaoRoutingModule,
-    SplitButtonModule,
-    ButtonModule,
-    DialogModule,
-    InputTextModule,
-    InputTextareaModule,
-    FieldsetModule,
-    CardModule,
-    TableModule,
-    ToastModule,
-    TooltipModule,
-    AutoCompleteModule,
-    CheckboxModule,
-    DropdownModule,
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        TurmaFormacaoRoutingModule,
+        SplitButtonModule,
+        ButtonModule,
+        DialogModule,
+        InputTextModule,
+        InputTextareaModule,
+        FieldsetModule,
+        CardModule,
+        TableModule,
+        ToastModule,
+        TooltipModule,
+        AutoCompleteModule,
+        CheckboxModule,
+        DropdownModule,
+        FormsModule,
+        ConfirmDialogModule
+    ],
   exports:[TurmaFormacaoCrudComponent],
   providers: [turmaFormacaoService]
 })

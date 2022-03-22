@@ -39,7 +39,7 @@
         <div class="ui-g-6">
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 ui-xl-12">
                 <img style="height: 80px; width: 300px;" [src]="image">
-                <p-fileUpload mode="basic" name="myfile[]" (onSelect)="uploadImagem($event)"></p-fileUpload>
+                <p-fileUpload #upload mode="basic" accept="image/*" name="myfile[]" (onSelect)="uploadImagem($event)"></p-fileUpload>
             </div>
         </div>
         <div class="ui-g-12">
@@ -101,7 +101,7 @@
 </form>
 <p-footer>
     <div class="ui-md-offset-10">
-        <p-button class="botao-rodape" label="Salvar" (onClick)="salvarColaborador()" [disabled]="formGroup.invalid">
+        <p-button class="botao-rodape" label="Salvar" (click)="salvarColaborador()" [disabled]="formGroup.invalid">
         </p-button>
     </div>
 </p-footer>

@@ -1,7 +1,12 @@
 package br.com.turma.sgc.service;
 
 import br.com.turma.sgc.domain.Competencia;
-import br.com.turma.sgc.repository.*;
+import br.com.turma.sgc.repository.CategoriaRepository;
+import br.com.turma.sgc.repository.ColaboradorCompetenciaRepository;
+import br.com.turma.sgc.repository.ColaboradorRepository;
+import br.com.turma.sgc.repository.CompetenciaRepository;
+import br.com.turma.sgc.repository.TurmaColaboradorCompetenciaRepository;
+import br.com.turma.sgc.repository.TurmaFormacaoRepository;
 import br.com.turma.sgc.service.dto.CadastrarCompetenciaDTO;
 import br.com.turma.sgc.service.dto.CompetenciaDTO;
 import br.com.turma.sgc.service.mapper.CompetenciaMapper;
@@ -10,7 +15,6 @@ import br.com.turma.sgc.utils.ConstantUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,48 +42,42 @@ public class CompetenciaService {
     }
 
     public CompetenciaDTO procurarPorId(Integer id) {
-        return competenciaMapper.toDto(competenciaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Elemento não encontrado!")));
+        return competenciaMapper.toDto(competenciaRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Elemento não encontrado!")));
     }
 
     public CompetenciaDTO inserir(CompetenciaDTO competenciaDTO) {
+        verificarNomeCompetencia(competenciaDTO);
 
-        //if(competenciaDTO.getNome().length() < 3)
-            //throw new RegraNegocioException("NOME INVÁLIDO! O Nome da competência deve ter mais de 2 caracteres.");
-
-        if(ePresent(competenciaDTO))
-            throw new RegraNegocioException("NOME INVÁLIDO! Este nome de competência já existe");
-
-        if(competenciaDTO.getDescricao().length() < 3)
-            throw new RegraNegocioException("DESCRIÇÃO INVÁLIDA! A Descrição da competência deve ter mais de 3 caracteres.");
+        if(competenciaDTO.getDescricao().length() < 5)
+            throw new RegraNegocioException(ConstantUtils.ERRO_DESCRICAO_INVALIDA);
 
         return competenciaMapper.toDto(competenciaRepository.save(competenciaMapper.toEntity(competenciaDTO)));
     }
 
-    private boolean ePresent(CompetenciaDTO competencia){
-        return competenciaRepository.buscarPorNome(competencia).isPresent();
+    private void verificarNomeCompetencia(CompetenciaDTO competencia){
+        if(competenciaRepository.buscarPorNome(competencia).isPresent()) {
+            throw new RegraNegocioException(ConstantUtils.ERRO_NOME_INVALIDO);
+        }
     }
 
-    public CompetenciaDTO atualizar(CompetenciaDTO competencia) {
-        if(!(competenciaRepository.findById(competencia.getId()).isPresent()))
-            throw new NoSuchElementException("Competência não encontrada");
+    public CompetenciaDTO atualizar(CompetenciaDTO competenciaDTO) {
+        if(!(competenciaRepository.findById(competenciaDTO.getId()).isPresent()))
+            throw new NoSuchElementException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);
 
-        //if(competencia.getNome().length() < 3)
-            //throw new RegraNegocioException("NOME INVÁLIDO! O Nome da competência deve ter mais de 2 caracteres.");
+        verificarNomeCompetencia(competenciaDTO);
 
-        if(ePresent(competencia))
-            throw new RegraNegocioException("NOME INVÁLIDO! Este nome de competência já existe");
+        if(competenciaDTO.getDescricao().length() < 5)
+            throw new RegraNegocioException(ConstantUtils.ERRO_DESCRICAO_INVALIDA);
 
-        if(competencia.getDescricao().length() < 5)
-            throw new RegraNegocioException("DESCRIÇÃO INVÁLIDA! A Descrição da competência deve ter mais de 3 caracteres.");
-
-        return competenciaMapper.toDto(competenciaRepository.save(competenciaMapper.toEntity(competencia)));
+        return competenciaMapper.toDto(competenciaRepository.save(competenciaMapper.toEntity(competenciaDTO)));
     }
 
-    public void deletar(@Valid Integer id) {
-        if(!(competenciaRepository.findById(id).isPresent()))
-            throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);
-         competenciaRepository.deleteById(id);
-    }
+//    public void deletar(@Valid Integer id) {
+//        if(!(competenciaRepository.findById(id).isPresent()))
+//            throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);
+//        competenciaRepository.deleteById(id);
+//    }
 
     public List<CompetenciaDTO> buscarCompetenciasPorNivelEPorIdColaborador(Integer idColaborador, Integer idNivel) {
         List<Competencia> competencias = colaboradorCompetenciaRepository.buscarCompetenciasPorNivelEPorIdColaborador(idColaborador,idNivel);

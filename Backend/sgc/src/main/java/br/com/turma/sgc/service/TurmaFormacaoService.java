@@ -1,7 +1,6 @@
 package br.com.turma.sgc.service;
 
 
-import br.com.turma.sgc.domain.ColaboradorCompetencia;
 import br.com.turma.sgc.domain.TurmaColaboradorCompetencia;
 import br.com.turma.sgc.domain.TurmaFormacao;
 import br.com.turma.sgc.domain.pk.ColaboradorCompetenciaPK;
@@ -15,15 +14,16 @@ import br.com.turma.sgc.service.resource.exception.RegraNegocioException;
 import br.com.turma.sgc.utils.ConstantUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class TurmaFormacaoService {
 
@@ -41,9 +41,9 @@ public class TurmaFormacaoService {
         return turmaFormacaoMapper.toDto(turmaFormacaoRepository.findAll());
     }
 
-
     public TurmaFormacaoDTO procurarPorId(@Valid Integer id) throws RegraNegocioException{
-        return turmaFormacaoMapper.toDto( turmaFormacaoRepository.findById(id).orElseThrow(()-> new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA)));
+        return turmaFormacaoMapper.toDto( turmaFormacaoRepository.findById(id)
+                .orElseThrow(()-> new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA)));
     }
 
     public TurmaFormacaoDTO inserir(@Valid TurmaFormacaoDTO turma){
@@ -54,13 +54,12 @@ public class TurmaFormacaoService {
     }
 
     public void deletar(@Valid Integer id){
-        if(!(turmaFormacaoRepository.findById(id).isPresent()))
-            throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA);
-
-        if(!(turmaColaboradorCompetenciaRepository.procurarTodasTurmasPorIdTurma(id).isEmpty()))
-            throw new RegraNegocioException("Essa turma está associada a um colaborador");
-
-        turmaFormacaoRepository.deleteById(id);
+        if(turmaFormacaoRepository.findById(id).isPresent()) {
+            if (buscaTurmaFinalizada().stream().noneMatch(value -> Objects.equals(value.getId(), id))) {
+                throw new RegraNegocioException(ConstantUtils.ERRO_TURMA_NAO_FINALIZADA);
+            }
+            turmaFormacaoRepository.atualizarStatus(id);
+        }
     }
 
     public TurmaFormacaoDTO atualizar(@Valid TurmaFormacaoDTO turma){
@@ -141,14 +140,13 @@ public class TurmaFormacaoService {
 
     public void deletarTurmaColaboradorCompetencia(Integer turmaId, Integer colaboradorId, Integer competenciaId){
         TurmaColaboradorCompetenciaPK turmaColaboradorCompetenciaPK = new TurmaColaboradorCompetenciaPK(turmaId, colaboradorId, competenciaId);
-         turmaColaboradorCompetenciaRepository.deleteById(turmaColaboradorCompetenciaPK);
+        turmaColaboradorCompetenciaRepository.deleteById(turmaColaboradorCompetenciaPK);
     }
 
     public void subirNivelColaboradorCompetencia (Integer colaboradorId, Integer competenciaId){
        if(!(procurarNivelColaboradorCompetencia(colaboradorId,competenciaId).getNivel() == 3)){
            colaboradorCompetenciaRepository.aumentarNivelColaboradorCompetencia(colaboradorId,competenciaId);
        }
-
     }
 
     public ColaboradorCompetenciaDTO inserirColaboradorCompetenciaZero(Integer colaboradorId, Integer competenciaId){
@@ -156,5 +154,4 @@ public class TurmaFormacaoService {
         ColaboradorCompetenciaDTO colaboradorCompetenciaDTO = new ColaboradorCompetenciaDTO(pk,colaboradorId,competenciaId,0);
         return colaboradorCompetenciaMapper.toDto(colaboradorCompetenciaRepository.save(colaboradorCompetenciaMapper.toEntity(colaboradorCompetenciaDTO)));
     }
-
 }

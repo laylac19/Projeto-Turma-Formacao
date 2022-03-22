@@ -6,6 +6,7 @@ import br.com.turma.sgc.service.dto.ColaboradorDTO;
 import br.com.turma.sgc.service.dto.ColaboradorListDTO;
 import br.com.turma.sgc.service.dto.CompetenciaColaboradorDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +40,6 @@ public class ColaboradorResource {
         return ResponseEntity.ok().body(service.procurarPorId(id));
     }
 
-//    @GetMapping("instrutores")
-//    public ResponseEntity<List<ColaboradorBuscaDTO>> buscaColaboradorInstrutor(){
-//        return ResponseEntity.ok().body(service.buscaColaboradorInstrutor());
-//    }
-
     @GetMapping("competencias/{idCompetencia}")
     public ResponseEntity<List<ColaboradorBuscaDTO>> buscarColaboradoresPorCompetencia(@PathVariable    ("idCompetencia") Integer idCompetencia){
 
@@ -64,7 +60,7 @@ public class ColaboradorResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable int id){
+    public ResponseEntity<Void> deletar(@PathVariable @Valid Integer id){
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }

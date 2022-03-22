@@ -103,4 +103,5 @@ export class CompetenciaListarComponent implements OnInit {
             }
         })
     }
+
 }

@@ -38,11 +38,11 @@ public class CompetenciaResource {
         return ResponseEntity.ok().body(competenciaService.atualizar(competenciaDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id){
-        competenciaService.deletar(id);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deletar(@PathVariable Integer id){
+//        competenciaService.deletar(id);
+//        return ResponseEntity.noContent().build();
+//    }
 
     @GetMapping("/colaborador/{idColaborador}/nivel/{idNivel}")
     public ResponseEntity<List<CompetenciaDTO>> buscarCompetenciasMaximasPorIdColaborador(@PathVariable Integer idColaborador, @PathVariable Integer idNivel){
@@ -72,5 +72,4 @@ public class CompetenciaResource {
     public ResponseEntity<List<CadastrarCompetenciaDTO>> buscarCompetenciasDropdown(){
         return ResponseEntity.ok().body(competenciaService.buscarCompetenciasDropdown());
     }
-
 }

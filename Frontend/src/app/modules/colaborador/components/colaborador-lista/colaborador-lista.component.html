@@ -1,4 +1,5 @@
 <h2>Colaboradores</h2>
+<p-confirmDialog class="confirmDialog"></p-confirmDialog>
 <p-table #dtColaborador [paginator]="true" [columns]="coloumns" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
     [value]="colaboradores" [showCurrentPageReport]="true" dataKey="id"
     currentPageReportTemplate="Mostrando {first} á {last} de {totalRecords} entradas">
@@ -36,8 +37,8 @@
             <td class="botao-acao">
                 <span class="botao-acao-icon">
                     <button pButton icon="ui-icon-pencil" pTooltip="Alterar"
-                        (onClick)="abrirDialogAlterar(colaborador)"></button>
-                    <button pButton icon="ui-icon-trash" pTooltip="Deletar"></button>
+                        (click)="abrirDialogAlterar(colaborador)"></button>
+                    <button pButton icon="ui-icon-trash" pTooltip="Deletar" (click)="confirmation(colaborador.id)"></button>
                 </span>
             </td>
         </tr>

@@ -15,7 +15,8 @@ public enum SenioridadeEnum implements Serializable {
     ESTAGIARIO(1, "Estagiário"),
     JUNIOR(2, "Júnior"),
     PLENO(3, "Pleno"),
-    SENIOR(4, "Sênior");
+    SENIOR(4, "Sênior"),
+    DESLIGADO(5, "Desligado");
 
     private int id;
     private String nome;

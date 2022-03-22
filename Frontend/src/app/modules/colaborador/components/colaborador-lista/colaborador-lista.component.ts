@@ -4,6 +4,8 @@ import {ColaboradorService} from '../../service/colaborador.service';
 import {SenioridadeService} from '../../../senioridade/service/senioridade.service';
 import { CadastrarColaboradorModel } from '../../models/cadastro-colaborador.model';
 import { ColaboradorFormComponent } from './colaborador-form/colaborador-form.component';
+import {ConfirmationService, MessageService} from "primeng/api";
+import {FuncoesUtil} from "../../../../shared/FuncoesUtil";
 
 @Component({
     selector: 'app-colaborador-lista',
@@ -25,7 +27,9 @@ export class ColaboradorListaComponent implements OnInit {
 
     constructor(
         private colaboradorService: ColaboradorService,
-        private senioridadeService: SenioridadeService
+        private senioridadeService: SenioridadeService,
+        private _messageService: MessageService,
+        private confirmService: ConfirmationService
     ) {
     }
 
@@ -54,10 +58,32 @@ export class ColaboradorListaComponent implements OnInit {
 
     abrirDialogAlterar(colaborador : ColaboradorModel) : void {
         this.visivel = !this.visivel;
-        this.colaboradorForm.buscarColaboradorPorId(colaborador.id); 
+        this.colaboradorForm.buscarColaboradorPorId(colaborador.id);
     }
 
     limparFormularioFilho() : void {
         this.colaboradorForm.limparFormulario()
+    }
+
+    excluirColaborador(id) {
+        this.colaboradorService.deleteColaborador(id).subscribe(
+            () => {
+                this._messageService.add({
+                    severity: 'success', summary: 'Sucesso ao Excluir',
+                    detail: 'O Colaborador foi Excluído com Sucesso!',
+                })
+                this.getColaboradores();
+            },
+            () => {
+                this._messageService.add({
+                    severity: 'error', summary: 'Ocorreu um Error ao Exclui',
+                })
+            }
+        );
+    }
+
+    confirmation (id) {
+        this.confirmService.confirm(FuncoesUtil.createConfirmation('Tem certeza de que deseja prosseguir?','Confirmação',
+            () => this.excluirColaborador(id), 'Sim', 'Não'));
     }
 }

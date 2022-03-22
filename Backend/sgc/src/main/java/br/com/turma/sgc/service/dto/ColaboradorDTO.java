@@ -2,6 +2,7 @@ package br.com.turma.sgc.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +26,8 @@ public class ColaboradorDTO implements Serializable {
     private String sobrenome;
 
     @NotBlank(message = "O CPF do Colaborador é obrigatório!")
-    @Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
+    //@Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
+    @CPF(message = "O CPF informado é inválido")
     private String cpf;
 
     private byte[] foto;
@@ -39,10 +41,10 @@ public class ColaboradorDTO implements Serializable {
     @NotNull(message = "A data de admissão do Colaborador é obrigatória!")
     private LocalDate dataAdmissao;
 
-    private String nomeSenioridade;
-
     @NotNull(message = "A senioridade do Colaborador é obrigatória")
     private Integer idSenioridade;
+
+    private String nomeSenioridade;
 
     private List<CadastrarCompetenciaDTO> competencia = new ArrayList<CadastrarCompetenciaDTO>();
 

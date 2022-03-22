@@ -4,6 +4,7 @@ import br.com.turma.sgc.domain.Colaborador;
 import br.com.turma.sgc.domain.ColaboradorCompetencia;
 import br.com.turma.sgc.repository.ColaboradorCompetenciaRepository;
 import br.com.turma.sgc.repository.ColaboradorRepository;
+import br.com.turma.sgc.repository.TurmaColaboradorCompetenciaRepository;
 import br.com.turma.sgc.service.dto.CadastrarCompetenciaDTO;
 import br.com.turma.sgc.service.dto.ColaboradorBuscaDTO;
 import br.com.turma.sgc.service.dto.ColaboradorDTO;
@@ -12,6 +13,7 @@ import br.com.turma.sgc.service.dto.CompetenciaColaboradorDTO;
 import br.com.turma.sgc.service.mapper.ColaboradorBuscaMapper;
 import br.com.turma.sgc.service.mapper.ColaboradorCompetenciaMapper;
 import br.com.turma.sgc.service.mapper.ColaboradorMapper;
+import br.com.turma.sgc.service.resource.exception.DataIntegratyViolationException;
 import br.com.turma.sgc.service.resource.exception.RegraNegocioException;
 import br.com.turma.sgc.utils.ConstantUtils;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,8 @@ public class ColaboradorService {
     private final ColaboradorBuscaMapper colaboradorBuscaMapper;
 
     private final ColaboradorCompetenciaMapper colaboradorCompetenciaMapper;
+
+    private final TurmaColaboradorCompetenciaRepository turmaColaboradorCompetenciaRepository;
 
     public List<ColaboradorListDTO> procurarTodos(){
         return repository.obterTodos();
@@ -64,34 +69,31 @@ public class ColaboradorService {
     }
 
     public List<ColaboradorBuscaDTO> buscarColaboradoresPorCompetencia(Integer id){
-
         return colaboradorBuscaMapper.toDto(colaboradorCompetenciaRepository.buscarColaboradoresPorCompetencia(id));
-
     }
-//
-//    public List<ColaboradorBuscaDTO> buscaColaboradorInstrutor(){
-//
-//        Integer nivelMax = Arrays.stream(NivelEnum.values()).map(NivelEnum::getId)
-//                .max(Integer::compareTo).orElse(NivelEnum.NIVEL3.getId());
-//
-//        return colaboradorBuscaMapper.toDto(colaboradorCompetenciaRepository.buscaColaboradorInstrutor(nivelMax));
-//    }
 
     public ColaboradorDTO inserir(ColaboradorDTO colab){
-        if(repository.buscarPorCPF(colab.getCpf()).isPresent()){
-            throw new RegraNegocioException("Esse CPF já existe em outro Colaborador!");
-        }
+        verificarCPFCadastrado(colab);
 
-        if(repository.buscarPorEmail(colab.getEmail()).isPresent()){
-            throw new RegraNegocioException("Esse E-mail já existe em outro Colaborador!");
-        }
+        verificarEmailCadastrado(colab);
 
         Colaborador colaborador = repository.save(colaboradorMapper.toEntity(colab));
         salvarCompetencias(colaborador, colab.getCompetencia());
         return colaboradorMapper.toDto(colaborador);
     }
 
-    //??????????????
+    private void verificarEmailCadastrado(ColaboradorDTO colab) {
+        if(repository.buscarPorEmail(colab.getEmail()).isPresent()){
+            throw new RegraNegocioException("Esse E-mail já existe em outro Colaborador!");
+        }
+    }
+
+    private void verificarCPFCadastrado(ColaboradorDTO colab) {
+        if(Objects.nonNull(findByCPF(colab))) {
+            throw new DataIntegratyViolationException("CPF Já Cadastrado");
+        }
+    }
+
     private void salvarCompetencias(Colaborador colaborador, List<CadastrarCompetenciaDTO> competencias){
         List<Integer> idsCompetencias = new ArrayList<>(Collections.singletonList(-1));
         idsCompetencias.addAll(competencias.stream().map(CadastrarCompetenciaDTO::getId).collect(Collectors.toList()));
@@ -110,10 +112,19 @@ public class ColaboradorService {
         colaboradorCompetenciaRepository.saveAll(colaboradorCompetencias);
     }
 
-    public void deletar(int id){
-        if(!(repository.findById(id).isPresent()))
-            throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);
-        repository.deleteById(id);
+    public void deletar(Integer id){
+        if(repository.findById(id).isPresent()) {
+            List<Colaborador> instrutoresComTurma = turmaColaboradorCompetenciaRepository.procurarInstrutoresEmTurma()
+                    .stream().filter(colaborador -> (colaborador.getId().equals(id))).collect(Collectors.toList());
+            verificarColaboradorEmTurma(instrutoresComTurma);
+            repository.atualizarSenioridadeColaborador(id);
+        }
+    }
+
+    private void verificarColaboradorEmTurma(List<Colaborador> instrutoresComTurma) {
+        if(! instrutoresComTurma.isEmpty() ) {
+            throw new RegraNegocioException("O Colaborador Está Ministrando uma Turma");
+        }
     }
 
     public ColaboradorDTO atualizar(ColaboradorDTO c){
@@ -128,5 +139,13 @@ public class ColaboradorService {
             return colaboradorMapper.toDto(colaboradorCompetenciaRepository.buscarColaboradorPraAplicarCompeteciaPorId(idCompetencia));
         else
             throw new NoSuchElementException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);
+    }
+
+    private ColaboradorDTO findByCPF(ColaboradorDTO objDTO) {
+        Colaborador colaborador = repository.buscarPorCPF(objDTO.getCpf());
+        if (Objects.nonNull(colaborador)) {
+            return colaboradorMapper.toDto(colaborador);
+        }
+        return null;
     }
 }

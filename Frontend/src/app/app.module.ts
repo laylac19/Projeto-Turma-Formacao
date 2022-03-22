@@ -13,7 +13,9 @@ import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule 
 import { ErrorModule, SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { MessageService } from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+
 
 @NgModule({
     declarations: [
@@ -37,11 +39,13 @@ import { MessageService } from 'primeng/api';
         ErrorModule,
         VersionTagModule,
         SecurityModule.forRoot(environment.auth),
-        MenuModule
+        MenuModule,
+        ConfirmDialogModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
-        MessageService
+        MessageService,
+        ConfirmationService,
     ],
     bootstrap: [AppComponent]
 })

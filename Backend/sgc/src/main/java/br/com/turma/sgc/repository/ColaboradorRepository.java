@@ -1,10 +1,10 @@
 package br.com.turma.sgc.repository;
 
 import br.com.turma.sgc.domain.Colaborador;
-import br.com.turma.sgc.service.dto.ColaboradorDTO;
 import br.com.turma.sgc.service.dto.ColaboradorListDTO;
 import br.com.turma.sgc.service.dto.CompetenciaColaboradorDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,8 +25,13 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Intege
     List<ColaboradorListDTO> obterTodos();
 
     @Query("select c from Colaborador c where c.cpf = :cpf")
-    Optional<Colaborador> buscarPorCPF(@Param("cpf") String cpf);
+    Colaborador buscarPorCPF(@Param("cpf") String cpf);
 
     @Query("select c from Colaborador c where c.email = :email")
     Optional<Colaborador> buscarPorEmail(@Param("email") String email);
+
+    @Modifying
+    @Query(value = "update Colaborador c set c.senioridade.id = 5 where c.id = :colaboradorId")
+    void atualizarSenioridadeColaborador(@Param("colaboradorId") Integer colaboradorId);
+
 }

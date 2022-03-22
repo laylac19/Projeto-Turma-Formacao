@@ -52,6 +52,11 @@ public class ValidationHandler extends ResponseEntityExceptionHandler{
         return getExceptionResponseEntity(HttpStatus.BAD_REQUEST, request, Collections.singletonList(exception.getMessage()));
     }
 
+    @ExceptionHandler(DataIntegratyViolationException.class)
+    public ResponseEntity<Object> handleException(DataIntegratyViolationException exception, WebRequest request) {
+        return getExceptionResponseEntity(HttpStatus.BAD_REQUEST, request, Collections.singletonList(exception.getMessage()));
+    }
+
     private ResponseEntity<Object> getExceptionResponseEntity(final HttpStatus status, WebRequest request, List<String> errors) {
         final Map<String, Object> body = new LinkedHashMap<>();
         final String errorsMessage = getErrorsMessage(status, errors);

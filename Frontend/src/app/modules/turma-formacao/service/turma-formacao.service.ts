@@ -8,8 +8,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { API_PATH } from "src/environments/environment";
 import { CompetenciaListaModel } from '../models/CompetenciaListaModel';
-import { NumberValueAccessor } from '@angular/forms';
-import { cpuUsage } from 'process';
+
 
 @Injectable()
 export class turmaFormacaoService{
@@ -73,6 +72,10 @@ export class turmaFormacaoService{
 
     listarStatus():Observable<StatusModel[]>{
         return this.httpClient.get<StatusModel[]>(API_PATH + "status");
+    }
+
+    deleteTurmaFormacao(id:number) : Observable<TurmaFormacaoModel> {
+        return this.httpClient.delete<TurmaFormacaoModel>(API_PATH + this.url + '/' + id);
     }
 
 }

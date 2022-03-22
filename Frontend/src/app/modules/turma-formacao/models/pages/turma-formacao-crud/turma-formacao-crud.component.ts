@@ -1,6 +1,3 @@
-import { Observable } from 'rxjs';
-import { CompetenciaModel } from './../../../../competencia/models/competencia.model';
-import { ColaboradorModel } from './../../../../colaborador/models/ColaboradorModel';
 import { CompetenciaListaModel } from './../../CompetenciaListaModel';
 import { ColaboradorListaModel } from './../../ColaboradorListaModel';
 import { TurmaColaboradorCompetenciaNivelModel } from './../../../../turma-colaborador-competencia/models/TurmaColaboradorCompetenciaNivelModel';
@@ -8,8 +5,8 @@ import { TurmaFormacaoModel } from './../../TurmaFormacaoModel';
 import { turmaFormacaoService } from './../../../service/turma-formacao.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TurmaColaboradorCompetenciaModel } from 'src/app/modules/turma-colaborador-competencia/models/TurmaColaboradorCompetenciaModel';
-import { TriStateCheckbox, SelectItem, MessageService } from 'primeng';
-import { NgModel } from '@angular/forms';
+import {FuncoesUtil} from "../../../../../shared/FuncoesUtil";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 
 @Component({
@@ -41,7 +38,7 @@ export class TurmaFormacaoCrudComponent implements OnInit {
 
   inputNomeTurma: String;
   inputDescricaoTurma: String;
-  statusDisponiveis: any[] = [];  
+  statusDisponiveis: any[] = [];
 
 
 @ViewChild('dt') table: TurmaFormacaoModel;
@@ -54,7 +51,11 @@ export class TurmaFormacaoCrudComponent implements OnInit {
   this.colaboradorHolder = new TurmaColaboradorCompetenciaNivelModel(null,null,null,null,null,null, null, null);
 }
 
-constructor(private turmaFormacaoService: turmaFormacaoService, private messageService: MessageService) {}
+constructor(
+    private turmaFormacaoService: turmaFormacaoService,
+    private messageService: MessageService,
+    private confirmService: ConfirmationService
+) {}
 
 //Mostrar modais
 showDialog(){
@@ -66,8 +67,12 @@ showColab(){
 }
 
 private showSucess(){
-  this.messageService.add({severity:'success', summary: 'Sucesso', detail:'turma Salva'});
+  this.messageService.add({severity:'success', summary: 'Sucesso'});
 }
+
+    private showMessageError(){
+        this.messageService.add({severity:'error', summary: 'Erro'});
+    }
 
 private showSucessIniciada(){
   this.messageService.add({severity:'success', summary: 'Sucesso', detail:'turma iniciada'});
@@ -84,17 +89,12 @@ showDialogAlt(turma: TurmaFormacaoModel){
   this.inputNomeTurma = turma.nome;
 }
 
-// teste(evento){
-//   console.log(evento.value.statusNome);
-   
-// }
-
-//Listar 
+//Listar
 listarTurmas(){
   this.turmaFormacaoService.obterTodasTurmasComURL().subscribe(turmas => {
       this.turmas = turmas;
   })
-  
+
     this.turmaFormacaoService.listarStatus()
         .subscribe( (status) => this.statusDisponiveis = status.map(status => ({
             label: status.descricao,
@@ -148,7 +148,7 @@ inserirTurma(){
 
     }
   );
-  
+
 
 }
 
@@ -213,7 +213,7 @@ inserirTurmaIniciando(){
 inserirColaboradorCompetenciaHolder(){
   let colaboradorObj = null;
   this.turmaFormacaoService.procurarNivelColaboradorCompetencia(this.colaboradorDropDown.id, this.competenciaDropDown.id)
-  .subscribe(colaboradorTempAdd =>{ 
+  .subscribe(colaboradorTempAdd =>{
     colaboradorObj = colaboradorTempAdd;
     if(colaboradorObj == null ){
       this.turmaFormacaoService.cadastrarColaboradorCompetenciaZero(this.colaboradorDropDown.id, this.competenciaDropDown.id).subscribe(temp =>{
@@ -231,11 +231,11 @@ inserirColaboradorCompetenciaHolder(){
             if(colaboradorTemp.nivel == 3){
               colaboradorTemp.nivelNome = "Senior";
             }
-            this.colaboradorCompetenciaHolder.push(colaboradorTemp);   
+            this.colaboradorCompetenciaHolder.push(colaboradorTemp);
           }
           this.colaboradorDropDown = new ColaboradorListaModel(null,null,null);
         this.competenciaDropDown = new CompetenciaListaModel(null,null);
-        })  
+        })
       })
      } else{
         this.turmaFormacaoService.procurarNivelColaboradorCompetencia(this.colaboradorDropDown.id, this.competenciaDropDown.id).subscribe(colaboradorTemp =>{
@@ -252,20 +252,12 @@ inserirColaboradorCompetenciaHolder(){
             if(colaboradorTemp.nivel == 3){
               colaboradorTemp.nivelNome = "Senior";
             }
-            this.colaboradorCompetenciaHolder.push(colaboradorTemp);   
+            this.colaboradorCompetenciaHolder.push(colaboradorTemp);
           }
           this.colaboradorDropDown = new ColaboradorListaModel(null,null,null);
-        this.competenciaDropDown = new CompetenciaListaModel(null,null);  
+        this.competenciaDropDown = new CompetenciaListaModel(null,null);
       })
      }
-  
-  
-  
-  
-  
-
-
-  
 },erro =>{
 
 })
@@ -283,7 +275,7 @@ filtrarColaboradores(event){
 }
   this.colaboradoresDisponiveis = this.colaboradoresTotal.filter((colaborador)=>
     colaborador.nome.toLowerCase().indexOf(value.toLowerCase()) >=0
-  
+
   );
 
 }
@@ -297,7 +289,7 @@ filtrarCompetencias(event){
 }
   this.competenciasDisponiveis = this.competenciasTotal.filter((competencia)=>
     competencia.nome.toLowerCase().indexOf(value.toLowerCase()) >=0
-  
+
   );
 }
 
@@ -331,7 +323,7 @@ finalizarTurma(turma: TurmaFormacaoModel){
       this.turmaFormacaoService.subirNivelColaboradorCompetencia(colaborador.colaboradorId, colaborador.competenciaId).subscribe(retorno => {
       })
       )
-  
+
   }
 
 
@@ -490,7 +482,7 @@ deletarColaboradorCompetenciaHolder(colaboradorSelecionado: TurmaColaboradorComp
 deletarColaboradorCompetenciaHolderAlt(colaboradorSelecionado: TurmaColaboradorCompetenciaNivelModel, turmaId: number){
   colaboradorSelecionado.turmaId = turmaId;
 
-  
+
   if(this.colaboradorCompetenciaHolder.findIndex((colaborador) => colaboradorSelecionado.colaboradorId === colaborador.colaboradorId &&
    colaborador.competenciaId === colaboradorSelecionado.competenciaId) !=-1){
      this.turmaFormacaoService.deletarTurmaColaboradorCompetencia(colaboradorSelecionado).subscribe();
@@ -499,6 +491,26 @@ deletarColaboradorCompetenciaHolderAlt(colaboradorSelecionado: TurmaColaboradorC
   this.colaboradorCompetenciaHolder.splice(this.colaboradorCompetenciaHolder.findIndex((colaborador) => colaboradorSelecionado.colaboradorId === colaborador.colaboradorId && colaborador.competenciaId === colaboradorSelecionado.competenciaId ), 1);
 }
 
+exluirTurmaFormacao(id) {
+      this.turmaFormacaoService.deleteTurmaFormacao(id).subscribe(
+          () => {
+              this.messageService.add({
+                  severity: 'success', summary: 'Sucesso ao Excluir',
+                  detail: 'A Turma de Formação foi Excluída com Sucesso!',
+              })
+              this.listarTurmas();
+          },
+          () => {
+              this.messageService.add({
+                  severity: 'error', summary: 'Ocorreu um Error ao Excluir a Turma de Formação',
+              })
+              this.listarTurmas();
+          }
+      );
+}
 
-
+    confirmation (id) {
+        this.confirmService.confirm(FuncoesUtil.createConfirmation('Tem certeza de que deseja prosseguir?','Confirmação',
+            () => this.exluirTurmaFormacao(id), 'Sim', 'Não'));
+    }
 }
