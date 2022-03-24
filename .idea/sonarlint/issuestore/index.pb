@@ -17,8 +17,6 @@ fFrontend/src/app/modules/turma-colaborador-competencia/turma-colaborador-compet
 aFrontend/src/app/modules/turma-colaborador-competencia/models/TurmaColaboradorCompetenciaModel.ts,0/f/0f54585f904d4b75891c5c8f5ff569228f0b454f
 ñ
 fFrontend/src/app/modules/turma-colaborador-competencia/models/TurmaColaboradorCompetenciaNivelModel.ts,5/d/5dc7695d1c5a4121d6bbeba2fccfe37095cf75d4
-s
-CFrontend/src/app/modules/competencia/service/competencia.service.ts,a/1/a18fa3d12a40f0fcc1538224792cf8b0f5fd4040
 x
 HBackend/sgc/src/main/java/br/com/turma/sgc/service/CategoriaService.java,0/e/0e33db19214a308de5986802ca4a78b3d96e4fee
 Ö
@@ -27,12 +25,8 @@ UBackend/sgc/src/main/java/br/com/turma/sgc/service/dto/ColaboradorCompetenciaDT
 KBackend/sgc/src/main/java/br/com/turma/sgc/repository/StatusRepository.java,7/9/7965611a5fcbd1d1b46f0a647c0039d74b2c85bc
 y
 IFrontend/src/app/modules/colaborador/models/cadastro-colaborador.model.ts,9/8/989a81a2fee239d4209bb0ce4eea960c51c7410a
-r
-BBackend/sgc/src/main/java/br/com/turma/sgc/domain/Senioridade.java,b/9/b97fc0dbb967b74dacd5c6ab57957204fd1a03e1
 o
 ?Frontend/src/app/modules/colaborador/models/ColaboradorModel.ts,e/e/ee18701350cffdfb97f2570c7ed8ffa5f06f28ef
-è
-_Backend/sgc/src/main/java/br/com/turma/sgc/service/dto/TurmaColaboradorCompetenciaNivelDTO.java,e/6/e60b6233553d8c06781dcb7a7ad6f2cd78d87f63
 z
 JBackend/sgc/src/main/java/br/com/turma/sgc/resource/CategoriaResource.java,b/2/b298a08aa879d58ca3eda8c608436af8cee8f936
 z
@@ -41,5 +35,3 @@ JBackend/sgc/src/main/java/br/com/turma/sgc/service/SenioridadeService.java,e/b
 PBackend/sgc/src/test/java/br/com/turma/sgc/resource/ColaboradorResourceTest.java,0/f/0f4a331f5e9b71a094814b5b7e6c5549eab80929
 ~
 NBackend/sgc/src/main/java/br/com/turma/sgc/repository/CategoriaRepository.java,b/7/b780b7890c8cdec684cd2e2e657393c01be4dd5d
-ã
-[Backend/sgc/src/main/java/br/com/turma/sgc/repository/ColaboradorCompetenciaRepository.java,8/a/8ae316e3d826f181698f764ea4db3d9188b395a7

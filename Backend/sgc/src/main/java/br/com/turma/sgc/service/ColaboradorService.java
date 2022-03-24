@@ -78,6 +78,7 @@ public class ColaboradorService {
         verificarEmailCadastrado(colab);
 
         Colaborador colaborador = repository.save(colaboradorMapper.toEntity(colab));
+        colaborador.setAtivo(true);
         salvarCompetencias(colaborador, colab.getCompetencia());
         return colaboradorMapper.toDto(colaborador);
     }
@@ -107,6 +108,7 @@ public class ColaboradorService {
 
             colabCompetencia.setColaborador(colaborador);
             colabCompetencia.setCompetencia(colaboradorCompetenciaMapper.toEntity(competencia));
+            colaborador.setAtivo(true);
             return colabCompetencia;
         }).collect(Collectors.toList());
         colaboradorCompetenciaRepository.saveAll(colaboradorCompetencias);
@@ -117,7 +119,7 @@ public class ColaboradorService {
             List<Colaborador> instrutoresComTurma = turmaColaboradorCompetenciaRepository.procurarInstrutoresEmTurma()
                     .stream().filter(colaborador -> (colaborador.getId().equals(id))).collect(Collectors.toList());
             verificarColaboradorEmTurma(instrutoresComTurma);
-            repository.atualizarSenioridadeColaborador(id);
+            repository.destativarColaborador(id);
         }
     }
 
@@ -128,7 +130,8 @@ public class ColaboradorService {
     }
 
     public ColaboradorDTO atualizar(ColaboradorDTO c){
-        Colaborador colaborador = repository.save(colaboradorMapper.toEntity(c));
+        Colaborador colaborador = colaboradorMapper.toEntity(c);
+        repository.save(colaborador);
         salvarCompetencias(colaborador, c.getCompetencia());
         return colaboradorMapper.toDto(colaborador);
     }

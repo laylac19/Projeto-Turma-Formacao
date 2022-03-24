@@ -23,13 +23,16 @@ export class FormCompetenciaComponent implements OnInit{
     categorias: CategoriaModel[] = [];
      visible: boolean;
 
-    constructor(private formBuilder: FormBuilder, private categoriaService:CategoriaService, private competenciaService:CompetenciaService, private messageService:MessageService) { }
+    constructor(private formBuilder: FormBuilder,
+                private categoriaService:CategoriaService,
+                private competenciaService:CompetenciaService,
+                private messageService:MessageService) { }
 
     ngOnInit() {
 
         this.formCompetencia = this.createForm();
         this.getCategorias();
-        if (! (typeof this.competenciaEditada === "undefined")) {
+        if (typeof this.competenciaEditada !== "undefined") {
             this.formCompetencia.patchValue(this.competenciaEditada);
         }
 
@@ -108,7 +111,6 @@ export class FormCompetenciaComponent implements OnInit{
                         this.showError(erro.error.categoria);
                     }
 
-                //   this.fechar.emit();
                   break;
                 case 404:
                     this.fechar.emit();

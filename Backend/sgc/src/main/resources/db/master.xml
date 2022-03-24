@@ -31,4 +31,12 @@
     <include file="db/changelog/20220206174200_criacao_de_tabela_turma_colaborador_competencia.xml"
              relativeToChangelogFile="false"/>
 
+    <include file="db/changelog/20220322121900_alteracao_tabela_colaborador.xml"
+             relativeToChangelogFile="false"/>
+
+    <include file="db/changelog/20220322164700_alteracao_tabela_turmaFormacao.xml"
+             relativeToChangelogFile="false"/>
+
+    <include file="db/changelog/20220323074500_alteracao_tabela_competencia.xml"
+             relativeToChangelogFile="false"/>
 </databaseChangeLog>

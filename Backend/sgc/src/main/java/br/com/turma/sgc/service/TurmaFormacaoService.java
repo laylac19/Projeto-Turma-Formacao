@@ -38,7 +38,7 @@ public class TurmaFormacaoService {
     private final ColaboradorCompetenciaMapper colaboradorCompetenciaMapper;
 
     public List<TurmaFormacaoDTO> procurarTodos(){
-        return turmaFormacaoMapper.toDto(turmaFormacaoRepository.findAll());
+        return turmaFormacaoMapper.toDto(turmaFormacaoRepository.buscarTurmasAtivas());
     }
 
     public TurmaFormacaoDTO procurarPorId(@Valid Integer id) throws RegraNegocioException{
@@ -48,6 +48,7 @@ public class TurmaFormacaoService {
 
     public TurmaFormacaoDTO inserir(@Valid TurmaFormacaoDTO turma){
         TurmaFormacao turmat = turmaFormacaoMapper.toEntity(turma);
+        //turmat.setAtivo(true);
         return turmaFormacaoMapper.toDto(turmaFormacaoRepository
                 .save(turmaFormacaoMapper
                 .toEntity(turma)));
@@ -58,7 +59,7 @@ public class TurmaFormacaoService {
             if (buscaTurmaFinalizada().stream().noneMatch(value -> Objects.equals(value.getId(), id))) {
                 throw new RegraNegocioException(ConstantUtils.ERRO_TURMA_NAO_FINALIZADA);
             }
-            turmaFormacaoRepository.atualizarStatus(id);
+            turmaFormacaoRepository.destivarTurma(id);
         }
     }
 

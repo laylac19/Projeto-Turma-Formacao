@@ -25,13 +25,13 @@
                         <p  class="registrar-turma ">Colaborador</p>
 
                         <p-dropdown [options]="colaboradoresTotal" placeholder="colaborador"
-                        name="colaboradorNomeDropDown" optionLabel="nome" [(ngModel)]="colaboradorDropDown" [filter]="true" >
+                        name="colaboradorNomeDropDown" optionLabel="nome" [(ngModel)]="colaboradorDropDown" [filter]="true" appendTo="body" >
                         </p-dropdown>
 
                         <p  class="registrar-turma ">Competencia</p>
 
                         <p-dropdown name="competenciaNomeDropDown" [options]="competenciasTotal" placeholder="competencia" optionLabel="nome"
-                        [(ngModel)]="competenciaDropDown" filter="true" >
+                        [(ngModel)]="competenciaDropDown" filter="true" appendTo="body">
                         </p-dropdown>
 
                         <button pButton class="commit-button-colab"
@@ -133,13 +133,13 @@
                             <div class="ui-g-4"  >
                                 <p  class="registrar-turma ">Colaborador</p>
                                 <p-dropdown [options]="colaboradoresTotal" placeholder="colaborador"
-                        name="colaboradorNomeDropDownAlterar" optionLabel="nome" [(ngModel)]="colaboradorDropDown" [filter]="true" >
+                        name="colaboradorNomeDropDownAlterar" optionLabel="nome" [(ngModel)]="colaboradorDropDown" [filter]="true" appendTo="body">
                         </p-dropdown>
 
                         <p  class="registrar-turma ">Competencia</p>
 
                         <p-dropdown name="competenciaNomeDropDownAlterar" [options]="competenciasTotal" placeholder="competencia" optionLabel="nome"
-                        [(ngModel)]="competenciaDropDown" filter="true" >
+                        [(ngModel)]="competenciaDropDown" filter="true" appendTo="body">
                         </p-dropdown>
 
                         <button pButton class="commit-button-colab"

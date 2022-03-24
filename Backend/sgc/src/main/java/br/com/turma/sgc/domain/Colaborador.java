@@ -3,6 +3,8 @@ package br.com.turma.sgc.domain;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +36,7 @@ public class Colaborador implements Serializable {
     @Column(name = "sobrenome_colaborador")
     private String sobrenome;
 
+    @CPF
     @Column(name = "cpf")
     private String cpf;
 
@@ -55,6 +58,8 @@ public class Colaborador implements Serializable {
     @JoinColumn(name = "id_senioridade")
     private Senioridade senioridade;
 
+    @Column(name = "ativo")
+    private Boolean ativo;
 
 
 }

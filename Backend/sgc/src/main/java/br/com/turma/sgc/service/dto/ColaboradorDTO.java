@@ -46,6 +46,8 @@ public class ColaboradorDTO implements Serializable {
 
     private String nomeSenioridade;
 
+    private Boolean ativo = true;
+
     private List<CadastrarCompetenciaDTO> competencia = new ArrayList<CadastrarCompetenciaDTO>();
 
 }

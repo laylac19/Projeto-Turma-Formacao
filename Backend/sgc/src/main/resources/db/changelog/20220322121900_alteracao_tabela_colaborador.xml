@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="20220207203400-02" author="Layla.Couto">
+        <addColumn tableName="colaborador">
+            <column name="ativo" type="boolean" remarks="Status do colaborador [true]=ativo [false]=inativo">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="20220323103800-03" author="layla.couto">
+        <addDefaultValue tableName="colaborador" columnName="ativo" defaultValue="true"/>
+        <addNotNullConstraint tableName="colaborador" columnName="ativo"/>
+    </changeSet>
+
+    <changeSet id="20220323103800-04" author="layla.couto">
+        <addDefaultValue tableName="colaborador" columnName="ativo" defaultValueBoolean="true"/>
+    </changeSet>
+
+</databaseChangeLog>

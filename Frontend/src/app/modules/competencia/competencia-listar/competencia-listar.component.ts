@@ -6,6 +6,8 @@ import { CompetenciaService } from '../service/competencia.service';
 import { CompetenciaModel } from '../models/competencia.model';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MessageService } from 'primeng';
+import {FuncoesUtil} from "../../../shared/FuncoesUtil";
+import {ConfirmationService} from "primeng/api";
 
 const URL_COMPETENCIA: string = 'competencia';
 @Component({
@@ -25,7 +27,9 @@ export class CompetenciaListarComponent implements OnInit {
     constructor(
         private competenciaService: CompetenciaService,
         private dialogService: DialogService,
-        private messageService: MessageService) { }
+        private messageService: MessageService,
+        private confirmService : ConfirmationService
+    ) { }
 
     ngOnInit(): void {
         this.listarCompetencias();
@@ -102,6 +106,30 @@ export class CompetenciaListarComponent implements OnInit {
                 this.listarCompetencias();
             }
         })
+    }
+
+    excluirCompetencia(id) {
+        this.competenciaService.deleteCompetencia(id).subscribe(
+            () => {
+                this.messageService.add({
+                    severity: 'success', summary: 'Sucesso ao Excluir',
+                    detail: 'A Competência Foi Excluída com Sucesso!',
+                })
+                this.listarCompetencias();
+            },
+            () => {
+                this.messageService.add({
+                    severity: 'error', summary: 'Ocorreu um Error ao Excluir',
+                })
+            },
+        );
+    }
+
+    confirmation (id) {
+        this.display=false;
+        this.confirmService.confirm(FuncoesUtil.createConfirmation('Tem certeza de que deseja prosseguir?','Confirmação',
+            () => this.excluirCompetencia(id), 'Sim', 'Não'));
+
     }
 
 }

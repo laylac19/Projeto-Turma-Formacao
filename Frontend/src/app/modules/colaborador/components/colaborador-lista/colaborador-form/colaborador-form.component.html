@@ -46,15 +46,15 @@
             <div class="ui-g-6 ui-sm-6 ui-md-6 ui-lg-6 ui-xl-6">
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                    <p-calendar type="text" pInputText placeholder="Data Nascimento" name="dataNascimento"
-                        formControlName="dataNascimento" dateFormat="dd/mm/yy" id="dataNascimento"></p-calendar>
+                    <p-calendar appendTo="body" [yearNavigator]="true" type="text" pInputText placeholder="Data Nascimento" name="dataNascimento"
+                        formControlName="dataNascimento" dateFormat="dd/mm/yy" id="dataNascimento" yearRange="1980:2022"></p-calendar>
                 </div>
             </div>
             <div class="ui-g-6 ui-sm-6 ui-md-6 ui-lg-6 ui-xl-6">
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                    <p-calendar type="text" pInputText placeholder="Data Admissão" name="dataAdmissao"
-                        formControlName="dataAdmissao" dateFormat="dd/mm/yy" id="dataAdmissao"></p-calendar>
+                    <p-calendar appendTo="body" [yearNavigator]="true" type="text" pInputText placeholder="Data Admissão" name="dataAdmissao"
+                        formControlName="dataAdmissao" dateFormat="dd/mm/yy" id="dataAdmissao" yearRange="1980:2022"></p-calendar>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
         <p-fieldset legend="Competências">
             <div class="ui-g-4">
                 <p-dropdown [options]="dropdownCompetencia" placeholder="Competências" [(ngModel)]="competenciaId"
-                    [ngModelOptions]="{standalone : true}"></p-dropdown>
+                    [ngModelOptions]="{standalone : true}" [showClear]=""></p-dropdown>
                 <p class="registrar-nivel "></p>
                 <p-dropdown [options]="dropdownNivel" [(ngModel)]="nivelId" placeholder="Niveis"
                     [ngModelOptions]="{standalone : true}"></p-dropdown>

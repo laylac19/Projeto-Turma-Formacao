@@ -26,4 +26,6 @@ public class CompetenciaDTO implements Serializable {
     private String descricao;
     @NotNull(message = "CATEGORIA INVÁLIDA! Insira alguma categoria.")
     private CategoriaDTO categoria;
+
+    private Boolean ativo = true;
 }

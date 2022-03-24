@@ -21,7 +21,7 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Intege
     CompetenciaColaboradorDTO buscarColaborador(@Param("id") Integer id);
 
     @Query("select new br.com.turma.sgc.service.dto.ColaboradorListDTO(id, nome, sobrenome, senioridade.nome) " +
-            " from Colaborador")
+            " from Colaborador where  ativo = true ")
     List<ColaboradorListDTO> obterTodos();
 
     @Query("select c from Colaborador c where c.cpf = :cpf")
@@ -31,7 +31,7 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Intege
     Optional<Colaborador> buscarPorEmail(@Param("email") String email);
 
     @Modifying
-    @Query(value = "update Colaborador c set c.senioridade.id = 5 where c.id = :colaboradorId")
-    void atualizarSenioridadeColaborador(@Param("colaboradorId") Integer colaboradorId);
+    @Query(value = "update Colaborador c set c.ativo = false where c.id = :colaboradorId")
+    void destativarColaborador(@Param("colaboradorId") Integer colaboradorId);
 
 }

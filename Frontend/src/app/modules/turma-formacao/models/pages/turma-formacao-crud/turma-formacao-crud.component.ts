@@ -148,7 +148,7 @@ inserirTurma(){
 
     }
   );
-
+    this.display = false;
 
 }
 
@@ -164,7 +164,7 @@ inserirListaColaborador(turmaId:number){
         console.log("certo");
       });
     }
-  }
+      }
 
 
     )
@@ -303,6 +303,8 @@ turma.statusId = 2;
   this.turmaFormacaoService.alterarTurma(turma).subscribe(
     turma => {
       this.showSucessIniciada();
+        //this.display = false;
+        this.displayAlt = false;
     }
   );
 
@@ -337,7 +339,7 @@ alterarTurma(turma: TurmaFormacaoModel){
       console.log("certo");
     }
   );
-  this.inserirListaColaborador(turma.id)
+  this.inserirListaColaborador(turma.id);
 }
 
 limparHolderColaboradorCompetencia(event){

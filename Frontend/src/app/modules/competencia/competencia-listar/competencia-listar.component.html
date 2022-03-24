@@ -1,4 +1,5 @@
 <body>
+<p-confirmDialog></p-confirmDialog>
     <p-toast></p-toast>
 
     <div class = "div-tela-sombreada">
@@ -13,10 +14,6 @@
         <div class="botao-create">
             <button type="button" class = "transition-size" pButton icon="ui ui-icon-plus" label="CRIAR" (click)="showDialogEdit(true)"></button>
         </div>
-
-        <!-- <div class="botao-Create">
-            <button type="button" pButton icon="ui ui-icon-pencil" label="CRIAR" class="botao-create" (click)="showDialogEdit(true)"></button>
-        </div> -->
 
         <div class="ui-g div-cards-competencias">
 
@@ -34,7 +31,7 @@
                 <p class="tipo-dado" >CATEGORIA: <span class = "dado-competencia">{{competenciaDetalhada.categoria.descricao}}</span> </p>
                 <p-footer>
                     <button type="button" pButton icon="ui ui-icon-pencil" label="EDITAR" class="botao-editar" (click)="showDialogEdit(false)"></button>
-                    <button type="button" pButton icon="ui ui-icon-trash" label="EXCLUIR" class="ui-button-secondary botao-excluir" class = "botao-excluir"></button>
+                    <button type="button" pButton icon="ui ui-icon-trash" label="EXCLUIR" class="ui-button-secondary botao-excluir" class = "botao-excluir" (click)="confirmation(competenciaDetalhada.id)" ></button>
                 </p-footer>
         </p-dialog>
 

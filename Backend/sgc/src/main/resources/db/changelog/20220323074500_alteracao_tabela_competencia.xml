@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="20220323074500-04" author="Layla.Couto">
+        <addColumn tableName="competencia">
+            <column name="ativo" type="boolean" remarks="Status da competencia [true]=ativo [false]=inativo">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="20220323103800-05" author="layla.couto">
+        <addDefaultValue tableName="competencia" columnName="ativo" defaultValueBoolean="true"/>
+        <addNotNullConstraint tableName="competencia" columnName="ativo"/>
+    </changeSet>
+</databaseChangeLog>

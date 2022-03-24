@@ -22,7 +22,7 @@ export class CompetenciaService{
     }
 
     obterCompetenciasDropdown(url: String): Observable<Array<CadastrarCompetenciaModel>>{
-        return this.httpClient.get<Array<CadastrarCompetenciaModel>>(environment.apiUrl + url + '/dropdown');
+        return this.httpClient.get<Array<CadastrarCompetenciaModel>>(environment.apiUrl + url);
     }
 
     atualizarCompetencia(competencia: CompetenciaModel):Observable<CompetenciaModel>{
@@ -31,6 +31,14 @@ export class CompetenciaService{
 
     criarCompetencia(competencia: CompetenciaModel): Observable<CompetenciaModel[]>{
         return this.httpClient.post<CompetenciaModel[]>(environment.apiUrl + 'competencia', competencia);
+    }
+    /*
+    deleteColaborador(id: number): Observable<ColaboradorModel> {
+        return this._http.delete<ColaboradorModel>(API_PATH + this.url + '/' + id );
+    }
+     */
+    deleteCompetencia(id: number): Observable<CompetenciaModel> {
+        return this.httpClient.delete<CompetenciaModel>(environment.apiUrl + 'competencia/' + id);
     }
 
 }

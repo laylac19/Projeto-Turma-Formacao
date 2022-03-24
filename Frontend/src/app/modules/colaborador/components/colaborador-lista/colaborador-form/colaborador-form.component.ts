@@ -8,6 +8,7 @@ import { SenioridadeModel } from 'src/app/shared/model/senioridade.model';
 import { CadastrarColaboradorModel } from '../../../models/cadastro-colaborador.model';
 import { ColaboradorService } from '../../../service/colaborador.service';
 import {FileUpload} from "primeng";
+import {CompetenciaModel} from "../../../../competencia/models/competencia.model";
 
 @Component({
   selector: 'app-colaborador-form',
@@ -68,9 +69,9 @@ export class ColaboradorFormComponent implements OnInit {
       this.inserirColaborador();
       return;
     }
-    this.atualizarColaborador();
-
+      this.atualizarColaborador();
   }
+
 
   buscarColaboradorPorId(id: number): void {
     this._colaboradorService.buscarColaboradorPorId(id).subscribe(
@@ -99,8 +100,16 @@ export class ColaboradorFormComponent implements OnInit {
   }
 
   adicionarListaCompetencia(): void {
+      const competencias: CadastrarCompetenciaModel[] = this.formGroup.get("competencia").value;
+
     const itemCompetencia = this.dropdownCompetencia.find(item => item.value == this.competenciaId);
     const nomeCompetencia = !!itemCompetencia ? itemCompetencia.label : "";
+      if(competencias.find(value => value.id == itemCompetencia.value)) {
+          this._messageService.add({
+              severity: 'error', summary: 'Competencia já cadastrada nesse colaborador',
+          })
+          return;
+      }
     this.listaCompetenciaSelecionado.push(new CadastrarCompetenciaModel(this.competenciaId, nomeCompetencia, this.nivelId))
   }
 
@@ -113,7 +122,6 @@ export class ColaboradorFormComponent implements OnInit {
   public converterArquivo(): void {
     this.formGroup.get('foto').setValue(btoa(this.file.result.toString()));
   }
-
 
   public criaDropdownSenioridade(): void {
     this.listaSenioridade = JSON.parse(localStorage.getItem('senioridade'));
@@ -152,6 +160,7 @@ export class ColaboradorFormComponent implements OnInit {
           severity: 'error', summary: 'Ocorreu um error na Inclusão',
           detail: err.error.ERRORS
         })
+          this.colaborador = null;
       },
     )
 
@@ -233,5 +242,4 @@ export class ColaboradorFormComponent implements OnInit {
 
     })
   }
-
 }

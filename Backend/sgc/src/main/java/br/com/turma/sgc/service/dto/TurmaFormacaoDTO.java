@@ -28,4 +28,6 @@ public class TurmaFormacaoDTO implements Serializable {
 
     private String statusNome;
 
+    private Boolean ativo = true;
+
 }

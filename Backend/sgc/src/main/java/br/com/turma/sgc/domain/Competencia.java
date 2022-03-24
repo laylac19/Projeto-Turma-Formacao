@@ -30,4 +30,7 @@ public class Competencia implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
+
+    @Column(name = "ativo")
+    private Boolean ativo;
 }

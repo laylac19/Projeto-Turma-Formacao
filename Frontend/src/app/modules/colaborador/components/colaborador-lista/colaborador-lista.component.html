@@ -32,12 +32,16 @@
     </ng-template>
     <ng-template pTemplate="body" let-colaborador>
         <tr>
-            <td>{{colaborador.nome}} {{colaborador.sobrenome}}</td>
+
+            <td>
+                <button pButton icon="ui-icon-person" pTooltip="Visualizar Dados" (click)="abrirDialogAlterar(colaborador)"></button>
+                &nbsp;
+                {{colaborador.nome}} {{colaborador.sobrenome}}
+            </td>
             <td>{{colaborador.nomeSenioridade}}</td>
             <td class="botao-acao">
                 <span class="botao-acao-icon">
-                    <button pButton icon="ui-icon-pencil" pTooltip="Alterar"
-                        (click)="abrirDialogAlterar(colaborador)"></button>
+                    <button pButton icon="ui-icon-pencil" pTooltip="Alterar" (click)="abrirDialogAlterar(colaborador)"></button>
                     <button pButton icon="ui-icon-trash" pTooltip="Deletar" (click)="confirmation(colaborador.id)"></button>
                 </span>
             </td>

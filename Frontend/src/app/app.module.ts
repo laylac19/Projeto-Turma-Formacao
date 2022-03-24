@@ -15,6 +15,7 @@ import { DiarioErrosComponent } from './components/diario-erros/diario-erros.com
 import { BlockUIModule } from 'ng-block-ui';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
         SecurityModule.forRoot(environment.auth),
         MenuModule,
         ConfirmDialogModule,
+        ReactiveFormsModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

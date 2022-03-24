@@ -13,8 +13,7 @@ public enum StatusEnum {
 
     PENDENTE(1, "Pendente"),
     INICIADA(2, "Iniciada"),
-    CONCLUIDA(3, "Concluída"),
-    EXLUIDA(4, "Excluída");
+    CONCLUIDA(3, "Concluída");
 
     private int id;
     private String nome;

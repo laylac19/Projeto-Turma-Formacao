@@ -7,10 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+@Transactional
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/competencia")
@@ -38,11 +40,11 @@ public class CompetenciaResource {
         return ResponseEntity.ok().body(competenciaService.atualizar(competenciaDTO));
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deletar(@PathVariable Integer id){
-//        competenciaService.deletar(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id){
+        competenciaService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/colaborador/{idColaborador}/nivel/{idNivel}")
     public ResponseEntity<List<CompetenciaDTO>> buscarCompetenciasMaximasPorIdColaborador(@PathVariable Integer idColaborador, @PathVariable Integer idNivel){

@@ -46,6 +46,7 @@ export class ColaboradorListaComponent implements OnInit {
     getColaboradores(): void {
         this.colaboradorService.getColaborador()
             .subscribe(colaboradores => this.colaboradores = colaboradores);
+        this.visivel = false;
     }
 
     getSenioridade(): void {
@@ -59,6 +60,11 @@ export class ColaboradorListaComponent implements OnInit {
     abrirDialogAlterar(colaborador : ColaboradorModel) : void {
         this.visivel = !this.visivel;
         this.colaboradorForm.buscarColaboradorPorId(colaborador.id);
+    }
+
+    abirDadosColaborador(colaborador : ColaboradorModel):void {
+        this.visivel = !this.visivel;
+        this.colaboradorService.buscarColaboradorPorId(colaborador.id);
     }
 
     limparFormularioFilho() : void {
@@ -76,7 +82,7 @@ export class ColaboradorListaComponent implements OnInit {
             },
             () => {
                 this._messageService.add({
-                    severity: 'error', summary: 'Ocorreu um Error ao Exclui',
+                    severity: 'error', summary: 'Ocorreu um Error ao Excluir',
                 })
             }
         );
