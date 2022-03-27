@@ -27,7 +27,7 @@ public class CategoriaService {
 
     public CategoriaDTO buscarCategoriaPorId(Integer id) {
         Categoria categoria = repository.findById(id)
-                .orElseThrow(()-> new RegraNegocioException("Categoria não encontrada"));
+                .orElseThrow(() -> new RegraNegocioException("Categoria não encontrada"));
         return mapper.toDto(categoria);
     }
 }

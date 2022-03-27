@@ -16,7 +16,6 @@ import java.util.Optional;
 @Repository
 public interface CompetenciaRepository extends JpaRepository<Competencia, Integer> {
 
-    //Query para pegar as competências de determinada categoria.(Layla) OK
     @Query(value = "select c from Competencia c join Categoria ca on ca.id = :idCategoria")
     List<Competencia> buscarCompetenciaPorIdCategoria(@Param("idCategoria") Integer idCategoria);
 
@@ -27,7 +26,7 @@ public interface CompetenciaRepository extends JpaRepository<Competencia, Intege
     Optional<Competencia> buscarPorNomesAtivos(@Param("competencia") CompetenciaDTO competencia);
 
     @Query(value = "select new br.com.turma.sgc.service.dto.CadastrarCompetenciaDTO(c.id, c.nome) from Competencia c where c.ativo = true")
-    List<CadastrarCompetenciaDTO> buscarCompetenciasDropdown(); //listagem
+    List<CadastrarCompetenciaDTO> buscarCompetenciasDropdown();
 
     @Modifying
     @Query(value = "update Competencia c set c.ativo = false where c.id = :competenciaId")

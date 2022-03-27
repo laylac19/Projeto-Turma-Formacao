@@ -37,7 +37,7 @@ public class ColaboradorCompetencia implements Serializable {
     @Column(name = "nivel")
     private Integer nivel;
 
-    public ColaboradorCompetencia(){
+    public ColaboradorCompetencia() {
         this.id = new ColaboradorCompetenciaPK();
     }
 }

@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import java.util.Objects;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public enum NivelEnum{
+public enum NivelEnum {
 
     NIVEL1(1, "Júnior"),
     NIVEL2(2, "Pleno"),
@@ -18,23 +15,4 @@ public enum NivelEnum{
 
     private Integer id;
     private String nome;
-
-    public static NivelEnum pegaEnumPorNome(String nivel) {
-        for(NivelEnum value : NivelEnum.values()){
-            if(Objects.equals(value.getNome(), nivel)){
-                return value;
-            }
-        }
-        throw new IllegalArgumentException("Código não encontrado");
-    }
-
-    public static NivelEnum pegaEnumPorId(Integer id){
-        for(NivelEnum value : NivelEnum.values()){
-            if(value.getId().equals(id)){
-                return value;
-            }
-        }
-        throw new IllegalArgumentException("Código não encontrado");
-    }
-
 }

@@ -16,12 +16,12 @@ public class CategoriaResource {
     private final CategoriaService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CategoriaDTO> buscarCategoriaPorId(@PathVariable Integer id){
+    public ResponseEntity<CategoriaDTO> buscarCategoriaPorId(@PathVariable Integer id) {
         return ResponseEntity.ok().body(service.buscarCategoriaPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> listarTodasCategorias(){
+    public ResponseEntity<List<CategoriaDTO>> listarTodasCategorias() {
         return ResponseEntity.ok().body(service.listarTodasCategorias());
     }
 }

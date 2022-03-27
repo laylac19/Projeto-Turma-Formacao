@@ -1,26 +1,17 @@
-import { CadastrarCompetenciaModel } from "../../competencia/models/cadastro-competencia.model";
+import {CadastrarCompetenciaModel} from "../../competencia/models/cadastro-competencia.model";
 
-export class CadastrarColaboradorModel{
+export class CadastrarColaboradorModel {
     constructor(
-        public id : number,
-        
-        public nome : String,
-
-        public sobrenome : String,
-    
-        public cpf : String,
-    
-        public email : String,
-    
-        public dataNascimento : Date,
-    
-        public dataAdmissao : Date,
-
-        public foto : string, 
-    
-        public  idSenioridade : number,
-    
-        public competencia : Array<CadastrarCompetenciaModel> ,
-
-    ) {}
+        public id: number,
+        public nome: string,
+        public sobrenome: string,
+        public cpf: string,
+        public email: string,
+        public dataNascimento: Date,
+        public dataAdmissao: Date,
+        public foto: string,
+        public idSenioridade: number,
+        public competencia: Array<CadastrarCompetenciaModel>,
+    ) {
+    }
 }

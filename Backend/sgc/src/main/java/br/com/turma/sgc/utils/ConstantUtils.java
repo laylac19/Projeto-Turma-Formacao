@@ -12,13 +12,11 @@ public class ConstantUtils {
 
     public static final String ERRO_TURMA_NAO_FINALIZADA = "Essa Turma Não Foi Finalizada";
 
-    public static final String ERRO_NOME_INVALIDO = "NOME INVÁLIDO! Este nome de competência já existe ou está inativa";
+    public static final String ERRO_NOME_INVALIDO = "NOME INVÁLIDO! Este nome de competência já existe e/ou pode estar inativa";
 
     public static final String ERRO_DESCRICAO_INVALIDA = "DESCRIÇÃO INVÁLIDA! A Descrição da competência deve ter mais de 5 caracteres.";
 
     public static final String ERRO_EXLUIR_COMPETENCIA = "A Competência Está Relacionada Com Um Colaborador ATIVO";
-
-    public static final String ERRO_CRIAR_COMPETENCIA_INATIVA = "COMPETÊNCIA JÁ EXISTENTE! Está Competência Está Inativa";
 
     private ConstantUtils(){}
 

@@ -19,14 +19,5 @@ public enum CategoriaEnum {
 
     private Integer id;
     private String nome;
-
-    public static CategoriaEnum pegaEnumPorId(Integer id){
-        for(CategoriaEnum value : CategoriaEnum.values()){
-            if(value.getId().equals(id)){
-                return value;
-            }
-        }
-        throw new IllegalArgumentException("Código não encontrado");
-    }
 }
 

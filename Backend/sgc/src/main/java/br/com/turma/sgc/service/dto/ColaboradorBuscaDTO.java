@@ -3,6 +3,7 @@ package br.com.turma.sgc.service.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 

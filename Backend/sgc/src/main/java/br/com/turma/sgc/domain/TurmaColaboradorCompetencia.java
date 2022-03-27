@@ -35,5 +35,4 @@ public class TurmaColaboradorCompetencia implements Serializable {
     @JoinColumn(name = "id_competencia")
     private Competencia competencia;
 
-
 }

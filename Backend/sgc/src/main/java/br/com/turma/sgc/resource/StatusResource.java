@@ -20,15 +20,13 @@ public class StatusResource {
     private final StatusService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<StatusDTO> buscarStatusPorId(@PathVariable Integer id){
+    public ResponseEntity<StatusDTO> buscarStatusPorId(@PathVariable Integer id) {
         return ResponseEntity.ok().body(service.buscarStatusPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<StatusDTO>> listarTodosStatus(){
+    public ResponseEntity<List<StatusDTO>> listarTodosStatus() {
         return ResponseEntity.ok().body(service.listarTodosStatus());
     }
-
-
 
 }

@@ -26,7 +26,6 @@ public class ColaboradorDTO implements Serializable {
     private String sobrenome;
 
     @NotBlank(message = "O CPF do Colaborador é obrigatório!")
-    //@Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
     @CPF(message = "O CPF informado é inválido")
     private String cpf;
 
@@ -48,6 +47,6 @@ public class ColaboradorDTO implements Serializable {
 
     private Boolean ativo = true;
 
-    private List<CadastrarCompetenciaDTO> competencia = new ArrayList<CadastrarCompetenciaDTO>();
+    private List<CadastrarCompetenciaDTO> competencia = new ArrayList<>();
 
 }
