@@ -61,5 +61,4 @@ public class Colaborador implements Serializable {
     @Column(name = "ativo")
     private Boolean ativo;
 
-
 }

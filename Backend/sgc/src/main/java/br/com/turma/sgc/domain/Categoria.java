@@ -21,9 +21,4 @@ public class Categoria implements Serializable {
     private Integer id;
     @Column(name = "nome")
     private String nome;
-
-    public Categoria(CategoriaEnum categoria){
-        this.id = categoria.getId();
-        this.nome = categoria.getNome();
-    }
 }

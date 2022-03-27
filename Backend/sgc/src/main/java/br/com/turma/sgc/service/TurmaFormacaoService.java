@@ -37,25 +37,25 @@ public class TurmaFormacaoService {
     private final ColaboradorCompetenciaRepository colaboradorCompetenciaRepository;
     private final ColaboradorCompetenciaMapper colaboradorCompetenciaMapper;
 
-    public List<TurmaFormacaoDTO> procurarTodos(){
+    public List<TurmaFormacaoDTO> procurarTodos() {
         return turmaFormacaoMapper.toDto(turmaFormacaoRepository.buscarTurmasAtivas());
     }
 
-    public TurmaFormacaoDTO procurarPorId(@Valid Integer id) throws RegraNegocioException{
-        return turmaFormacaoMapper.toDto( turmaFormacaoRepository.findById(id)
-                .orElseThrow(()-> new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA)));
+    public TurmaFormacaoDTO procurarPorId(@Valid Integer id) throws RegraNegocioException {
+        return turmaFormacaoMapper.toDto(turmaFormacaoRepository.findById(id)
+                .orElseThrow(() -> new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA)));
     }
 
-    public TurmaFormacaoDTO inserir(@Valid TurmaFormacaoDTO turma){
+    public TurmaFormacaoDTO inserir(@Valid TurmaFormacaoDTO turma) {
         TurmaFormacao turmat = turmaFormacaoMapper.toEntity(turma);
         //turmat.setAtivo(true);
         return turmaFormacaoMapper.toDto(turmaFormacaoRepository
                 .save(turmaFormacaoMapper
-                .toEntity(turma)));
+                        .toEntity(turma)));
     }
 
-    public void deletar(@Valid Integer id){
-        if(turmaFormacaoRepository.findById(id).isPresent()) {
+    public void deletar(@Valid Integer id) {
+        if (turmaFormacaoRepository.findById(id).isPresent()) {
             if (buscaTurmaFinalizada().stream().noneMatch(value -> Objects.equals(value.getId(), id))) {
                 throw new RegraNegocioException(ConstantUtils.ERRO_TURMA_NAO_FINALIZADA);
             }
@@ -63,37 +63,37 @@ public class TurmaFormacaoService {
         }
     }
 
-    public TurmaFormacaoDTO atualizar(@Valid TurmaFormacaoDTO turma){
+    public TurmaFormacaoDTO atualizar(@Valid TurmaFormacaoDTO turma) {
         turmaFormacaoRepository.findById(turma.getId()).orElseThrow(() -> new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA));
         return turmaFormacaoMapper.toDto(turmaFormacaoRepository.save(turmaFormacaoMapper.toEntity(turma)));
     }
 
-    public List<TurmaFormacaoDTO> procurarTodosPorIdStatus(@Valid Integer id){
+    public List<TurmaFormacaoDTO> procurarTodosPorIdStatus(@Valid Integer id) {
         return turmaFormacaoMapper.toDto(turmaFormacaoRepository.procurarTodosPorIdStatus(id));
     }
 
-    public List<ColaboradorFuncaoTurmaDTO> procurarTodosAlunosPorIdTurma(@Valid Integer id){
+    public List<ColaboradorFuncaoTurmaDTO> procurarTodosAlunosPorIdTurma(@Valid Integer id) {
         if (!(turmaFormacaoRepository.findById(id).isPresent()))
             throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA);
 
         return colaboradorFuncaoTurmaMapper.toDto(turmaColaboradorCompetenciaRepository.procurarTodosAlunosPorIdTurma(id));
     }
 
-    public List<ColaboradorFuncaoTurmaDTO> procurarTodosInstrutoresPorIdTurma(@Valid Integer id){
+    public List<ColaboradorFuncaoTurmaDTO> procurarTodosInstrutoresPorIdTurma(@Valid Integer id) {
         if (!(turmaFormacaoRepository.findById(id).isPresent()))
             throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA);
 
         return colaboradorFuncaoTurmaMapper.toDto(turmaColaboradorCompetenciaRepository.procurarTodosInstrutoresPorIdTurma(id));
     }
 
-    public List<InstrutorCompetenciaTurmaDTO> procurarTodosInstrutoresCompetenciaPorIdTurma (@Valid Integer id){
-        if(!(turmaFormacaoRepository.findById(id).isPresent()))
+    public List<InstrutorCompetenciaTurmaDTO> procurarTodosInstrutoresCompetenciaPorIdTurma(@Valid Integer id) {
+        if (!(turmaFormacaoRepository.findById(id).isPresent()))
             throw new RegraNegocioException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA);
 
         return instrutorCompetenciaTurmaMapper.toDto(turmaColaboradorCompetenciaRepository.procurarTodosInstrutoresPorIdTurma(id));
     }
 
-    public List<TurmaFormacaoDTO> buscarTurmaAndamento(){
+    public List<TurmaFormacaoDTO> buscarTurmaAndamento() {
         List<TurmaFormacao> turmas = turmaFormacaoRepository.buscarTurmaAndamento();
         return turmaFormacaoMapper.toDto(turmas);
     }
@@ -102,7 +102,7 @@ public class TurmaFormacaoService {
         return turmaFormacaoMapper.toDto(turmaFormacaoRepository.buscaTurmaFinalizada());
     }
 
-    public List<TurmaFormacaoDTO> buscarTodasTurmasPorIntervalo(String inicio, String fim){
+    public List<TurmaFormacaoDTO> buscarTodasTurmasPorIntervalo(String inicio, String fim) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dataInicio = LocalDate.parse(inicio, formatter);
@@ -115,44 +115,44 @@ public class TurmaFormacaoService {
         return turmaFormacaoMapper.toDto(turmas);
     }
 
-    public TurmaColaboradorCompetenciaDTO inserirColaboradorTurma(TurmaColaboradorCompetenciaDTO turmaColaboradorCompetenciaDTO){
+    public TurmaColaboradorCompetenciaDTO inserirColaboradorTurma(TurmaColaboradorCompetenciaDTO turmaColaboradorCompetenciaDTO) {
         TurmaColaboradorCompetenciaPK turmaColaboradorCompetenciaPK = new TurmaColaboradorCompetenciaPK();
         turmaColaboradorCompetenciaPK.setIdTurmaFormacao(turmaColaboradorCompetenciaDTO.getTurmaId());
         turmaColaboradorCompetenciaPK.setIdColaborador(turmaColaboradorCompetenciaDTO.getColaboradorId());
         turmaColaboradorCompetenciaPK.setIdCompetencia(turmaColaboradorCompetenciaDTO.getCompetenciaId());
-        TurmaColaboradorCompetencia turmaColaboradorCompetencia =turmaColaboradorCompetenciaMapper.toEntity(turmaColaboradorCompetenciaDTO);
+        TurmaColaboradorCompetencia turmaColaboradorCompetencia = turmaColaboradorCompetenciaMapper.toEntity(turmaColaboradorCompetenciaDTO);
         turmaColaboradorCompetencia.setId(turmaColaboradorCompetenciaPK);
-          return turmaColaboradorCompetenciaMapper
-                  .toDto(turmaColaboradorCompetenciaRepository
-                  .save(turmaColaboradorCompetencia));
+        return turmaColaboradorCompetenciaMapper
+                .toDto(turmaColaboradorCompetenciaRepository
+                        .save(turmaColaboradorCompetencia));
     }
 
-    public List<TurmaColaboradorCompetenciaNivelDTO> procurarColaboradorCompetenciaEmTurma(Integer id){
+    public List<TurmaColaboradorCompetenciaNivelDTO> procurarColaboradorCompetenciaEmTurma(Integer id) {
         return turmaColaboradorCompetenciaNivelMapper.toDto(turmaColaboradorCompetenciaRepository.procurarColaboradorCompetenciaPorTurma(id));
     }
 
-    public List<TurmaColaboradorCompetenciaNivelDTO> listarColaboradorCompetencia(){
-        return  turmaColaboradorCompetenciaNivelMapper.toDto(colaboradorCompetenciaRepository.findAll());
+    public List<TurmaColaboradorCompetenciaNivelDTO> listarColaboradorCompetencia() {
+        return turmaColaboradorCompetenciaNivelMapper.toDto(colaboradorCompetenciaRepository.findAll());
     }
 
-    public TurmaColaboradorCompetenciaNivelDTO procurarNivelColaboradorCompetencia(Integer colaboradorId, Integer competenciaId){
-        return turmaColaboradorCompetenciaNivelMapper.toDto( colaboradorCompetenciaRepository.buscarColaboradorCompetenciaPorIdColaboradorIdCompetencia(competenciaId, colaboradorId));
+    public TurmaColaboradorCompetenciaNivelDTO procurarNivelColaboradorCompetencia(Integer colaboradorId, Integer competenciaId) {
+        return turmaColaboradorCompetenciaNivelMapper.toDto(colaboradorCompetenciaRepository.buscarColaboradorCompetenciaPorIdColaboradorIdCompetencia(competenciaId, colaboradorId));
     }
 
-    public void deletarTurmaColaboradorCompetencia(Integer turmaId, Integer colaboradorId, Integer competenciaId){
+    public void deletarTurmaColaboradorCompetencia(Integer turmaId, Integer colaboradorId, Integer competenciaId) {
         TurmaColaboradorCompetenciaPK turmaColaboradorCompetenciaPK = new TurmaColaboradorCompetenciaPK(turmaId, colaboradorId, competenciaId);
         turmaColaboradorCompetenciaRepository.deleteById(turmaColaboradorCompetenciaPK);
     }
 
-    public void subirNivelColaboradorCompetencia (Integer colaboradorId, Integer competenciaId){
-       if(!(procurarNivelColaboradorCompetencia(colaboradorId,competenciaId).getNivel() == 3)){
-           colaboradorCompetenciaRepository.aumentarNivelColaboradorCompetencia(colaboradorId,competenciaId);
-       }
+    public void subirNivelColaboradorCompetencia(Integer colaboradorId, Integer competenciaId) {
+        if (!(procurarNivelColaboradorCompetencia(colaboradorId, competenciaId).getNivel() == 3)) {
+            colaboradorCompetenciaRepository.aumentarNivelColaboradorCompetencia(colaboradorId, competenciaId);
+        }
     }
 
-    public ColaboradorCompetenciaDTO inserirColaboradorCompetenciaZero(Integer colaboradorId, Integer competenciaId){
+    public ColaboradorCompetenciaDTO inserirColaboradorCompetenciaZero(Integer colaboradorId, Integer competenciaId) {
         ColaboradorCompetenciaPK pk = new ColaboradorCompetenciaPK(colaboradorId, competenciaId);
-        ColaboradorCompetenciaDTO colaboradorCompetenciaDTO = new ColaboradorCompetenciaDTO(pk,colaboradorId,competenciaId,0);
+        ColaboradorCompetenciaDTO colaboradorCompetenciaDTO = new ColaboradorCompetenciaDTO(pk, colaboradorId, competenciaId, 0);
         return colaboradorCompetenciaMapper.toDto(colaboradorCompetenciaRepository.save(colaboradorCompetenciaMapper.toEntity(colaboradorCompetenciaDTO)));
     }
 }

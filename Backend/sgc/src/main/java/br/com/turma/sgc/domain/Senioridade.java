@@ -1,6 +1,5 @@
 package br.com.turma.sgc.domain;
 
-import br.com.turma.sgc.enums.SenioridadeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,10 +22,4 @@ public class Senioridade implements Serializable {
 
     @Column(name = "nome")
     private String nome;
-
-    public Senioridade(SenioridadeEnum senioridade){
-        this.id = senioridade.getId();
-        this.nome = senioridade.getNome();
-    }
-
 }

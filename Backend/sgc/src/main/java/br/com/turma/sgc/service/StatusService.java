@@ -10,7 +10,6 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class StatusService {
 
     public StatusDTO buscarStatusPorId(Integer id) {
         Status status = repository.findById(id)
-                .orElseThrow(()-> new RegraNegocioException("Status não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Status não encontrado"));
         return mapper.toDto(status);
     }
 

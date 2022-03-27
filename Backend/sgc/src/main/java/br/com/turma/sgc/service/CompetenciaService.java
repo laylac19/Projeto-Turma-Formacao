@@ -48,39 +48,32 @@ public class CompetenciaService {
     }
 
     public CompetenciaDTO inserir(CompetenciaDTO competenciaDTO) {
-        Competencia competencia = competenciaMapper.toEntity(competenciaDTO);
         verificarNomeCompetencia(competenciaDTO);
-
-        if(competenciaDTO.getDescricao().length() < 5)
+        if (competenciaDTO.getDescricao().length() < 5)
             throw new RegraNegocioException(ConstantUtils.ERRO_DESCRICAO_INVALIDA);
-
-//        competencia.setAtivo(true);
         return competenciaMapper.toDto(competenciaRepository.save(competenciaMapper.toEntity(competenciaDTO)));
     }
 
-    private void verificarNomeCompetencia(CompetenciaDTO competencia){
-        if(competenciaRepository.buscarPorNome(competencia).isPresent()) {
-            if (competenciaRepository.buscarPorNomesAtivos(competencia).isPresent()) {
-                throw new RegraNegocioException(ConstantUtils.ERRO_CRIAR_COMPETENCIA_INATIVA);
-            }
+    private void verificarNomeCompetencia(CompetenciaDTO competencia) {
+        if (competenciaRepository.buscarPorNome(competencia).isPresent()) {
             throw new RegraNegocioException(ConstantUtils.ERRO_NOME_INVALIDO);
         }
     }
 
     public CompetenciaDTO atualizar(CompetenciaDTO competenciaDTO) {
-        if(!(competenciaRepository.findById(competenciaDTO.getId()).isPresent()))
+        if (!(competenciaRepository.findById(competenciaDTO.getId()).isPresent()))
             throw new NoSuchElementException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);
-        if(competenciaDTO.getDescricao().length() < 5)
+        if (competenciaDTO.getDescricao().length() < 5)
             throw new RegraNegocioException(ConstantUtils.ERRO_DESCRICAO_INVALIDA);
 
         return competenciaMapper.toDto(competenciaRepository.save(competenciaMapper.toEntity(competenciaDTO)));
     }
 
     public void deletar(Integer id) {
-        if(competenciaRepository.findById(id).isPresent()) {
-            List<CadastrarCompetenciaDTO> competenciaList = competenciaRepository.buscarCompetenciasDropdown()
-                    .stream().filter(competencia->(competencia.getId().equals(id))).collect(Collectors.toList());
-            if(! colaboradorCompetenciaRepository.buscarColaboradoresPorCompetencia(id).isEmpty()) {
+        if (competenciaRepository.findById(id).isPresent()) {
+            competenciaRepository.buscarCompetenciasDropdown()
+                    .stream().filter(competencia -> (competencia.getId().equals(id))).collect(Collectors.toList());
+            if (!colaboradorCompetenciaRepository.buscarColaboradoresPorCompetencia(id).isEmpty()) {
                 throw new RegraNegocioException(ConstantUtils.ERRO_EXLUIR_COMPETENCIA);
             }
             competenciaRepository.desativarCompetencia(id);
@@ -88,11 +81,11 @@ public class CompetenciaService {
     }
 
     public List<CompetenciaDTO> buscarCompetenciasPorNivelEPorIdColaborador(Integer idColaborador, Integer idNivel) {
-        List<Competencia> competencias = colaboradorCompetenciaRepository.buscarCompetenciasPorNivelEPorIdColaborador(idColaborador,idNivel);
+        List<Competencia> competencias = colaboradorCompetenciaRepository.buscarCompetenciasPorNivelEPorIdColaborador(idColaborador, idNivel);
         return competenciaMapper.toDto(competencias);
     }
 
-    public List<CompetenciaDTO> buscaCompetenciaNivel(Integer idColaborador){
+    public List<CompetenciaDTO> buscaCompetenciaNivel(Integer idColaborador) {
         return colaboradorCompetenciaRepository.buscaCompetenciaNivel(idColaborador);
     }
 
@@ -102,21 +95,22 @@ public class CompetenciaService {
         return competenciaMapper.toDto(competenciaRepository.buscarCompetenciaPorIdCategoria(idCategoria));
     }
 
-    public List<CompetenciaDTO> pegarTodasCompetenciasDoColaboradorNaTurma(Integer idTurma, Integer idColaborador){
-        if(!(turmaFormacaoRepository.findById(idTurma).isPresent()))
+    public List<CompetenciaDTO> pegarTodasCompetenciasDoColaboradorNaTurma(Integer idTurma, Integer idColaborador) {
+        if (!(turmaFormacaoRepository.findById(idTurma).isPresent()))
             throw new NoSuchElementException(ConstantUtils.ERRO_ENCONTRAR_IDTURMA);
 
-        if(!(colaboradorRepository.findById(idColaborador).isPresent()))
+        if (!(colaboradorRepository.findById(idColaborador).isPresent()))
             throw new NoSuchElementException(ConstantUtils.ERRO_ENCONTRAR_IDCOLABORADOR);
 
-        if(!(turmaColaboradorCompetenciaRepository.procurarPorIdColaboradorTurma(idTurma, idColaborador).isPresent()))
+        if (!(turmaColaboradorCompetenciaRepository.procurarPorIdColaboradorTurma(idTurma, idColaborador).isPresent()))
             throw new NoSuchElementException(ConstantUtils.ERRO_ENCONTRAR_IDCOLABORADOR);
 
         return competenciaMapper.toDto(turmaColaboradorCompetenciaRepository.pegarTodasCompetenciasDoColaboradorNaTurma(idTurma, idColaborador));
 
     }
 
-    public List<CadastrarCompetenciaDTO> buscarCompetenciasDropdown(){
+    public List<CadastrarCompetenciaDTO> buscarCompetenciasDropdown() {
         return competenciaRepository.buscarCompetenciasDropdown();
     }
 }
+

@@ -2,8 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ColaboradorModel} from '../../models/ColaboradorModel';
 import {ColaboradorService} from '../../service/colaborador.service';
 import {SenioridadeService} from '../../../senioridade/service/senioridade.service';
-import { CadastrarColaboradorModel } from '../../models/cadastro-colaborador.model';
-import { ColaboradorFormComponent } from './colaborador-form/colaborador-form.component';
+import {ColaboradorFormComponent} from './colaborador-form/colaborador-form.component';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {FuncoesUtil} from "../../../../shared/FuncoesUtil";
 
@@ -13,17 +12,15 @@ import {FuncoesUtil} from "../../../../shared/FuncoesUtil";
     styleUrls: ['./colaborador-lista.component.scss']
 })
 export class ColaboradorListaComponent implements OnInit {
+
     colaboradores: ColaboradorModel[] = [];
     senioridades: any[] = [];
     coloumns: any[] = [];
 
-    colaboradorAlteracao : CadastrarColaboradorModel;
-
     @ViewChild('dtColaborador') table: ColaboradorModel;
-
     @ViewChild('colaboradorForm') colaboradorForm: ColaboradorFormComponent;
 
-    visivel : boolean = false;
+    visivel: boolean = false;
 
     constructor(
         private colaboradorService: ColaboradorService,
@@ -57,18 +54,20 @@ export class ColaboradorListaComponent implements OnInit {
             })));
     }
 
-    abrirDialogAlterar(colaborador : ColaboradorModel) : void {
+    abrirDialogAlterar(colaborador: ColaboradorModel): void {
         this.visivel = !this.visivel;
+        this.colaboradorForm.isVisible = true;
         this.colaboradorForm.buscarColaboradorPorId(colaborador.id);
     }
 
-    abirDadosColaborador(colaborador : ColaboradorModel):void {
+    abrirDadosColaborador(colaborador: ColaboradorModel): void {
         this.visivel = !this.visivel;
-        this.colaboradorService.buscarColaboradorPorId(colaborador.id);
+        this.colaboradorForm.isVisible = false;
+        this.colaboradorForm.buscarColaboradorPorId(colaborador.id);
     }
 
-    limparFormularioFilho() : void {
-        this.colaboradorForm.limparFormulario()
+    limparFormularioFilho(): void {
+        this.colaboradorForm.limparFormulario();
     }
 
     excluirColaborador(id) {
@@ -88,8 +87,8 @@ export class ColaboradorListaComponent implements OnInit {
         );
     }
 
-    confirmation (id) {
-        this.confirmService.confirm(FuncoesUtil.createConfirmation('Tem certeza de que deseja prosseguir?','Confirmação',
+    confirmation(id) {
+        this.confirmService.confirm(FuncoesUtil.createConfirmation('Tem certeza de que deseja prosseguir?', 'Confirmação',
             () => this.excluirColaborador(id), 'Sim', 'Não'));
     }
 }

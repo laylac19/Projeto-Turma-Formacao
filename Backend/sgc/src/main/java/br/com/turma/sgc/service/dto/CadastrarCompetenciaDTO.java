@@ -14,7 +14,7 @@ public class CadastrarCompetenciaDTO {
     private Integer nivel;
     private String nome;
 
-    public CadastrarCompetenciaDTO(Integer id, String nome){
+    public CadastrarCompetenciaDTO(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }

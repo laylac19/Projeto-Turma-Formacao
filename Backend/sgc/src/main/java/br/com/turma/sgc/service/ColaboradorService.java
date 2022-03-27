@@ -46,12 +46,12 @@ public class ColaboradorService {
 
     private final TurmaColaboradorCompetenciaRepository turmaColaboradorCompetenciaRepository;
 
-    public List<ColaboradorListDTO> procurarTodos(){
+    public List<ColaboradorListDTO> procurarTodos() {
         return repository.obterTodos();
     }
 
     @Transactional(readOnly = true)
-    public ColaboradorDTO procurarPorId(int id){
+    public ColaboradorDTO procurarPorId(int id) {
         Colaborador obj = repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Elemento não encontrado!"));
 
@@ -61,18 +61,18 @@ public class ColaboradorService {
 
     }
 
-    public CompetenciaColaboradorDTO buscarColaborador(Integer id){
+    public CompetenciaColaboradorDTO buscarColaborador(Integer id) {
         CompetenciaColaboradorDTO dto = repository.buscarColaborador(id);
         dto.setCompetenciasDTO(colaboradorCompetenciaRepository.buscaCompetenciaNivel(id));
         return dto;
 
     }
 
-    public List<ColaboradorBuscaDTO> buscarColaboradoresPorCompetencia(Integer id){
+    public List<ColaboradorBuscaDTO> buscarColaboradoresPorCompetencia(Integer id) {
         return colaboradorBuscaMapper.toDto(colaboradorCompetenciaRepository.buscarColaboradoresPorCompetencia(id));
     }
 
-    public ColaboradorDTO inserir(ColaboradorDTO colab){
+    public ColaboradorDTO inserir(ColaboradorDTO colab) {
         verificarCPFCadastrado(colab);
 
         verificarEmailCadastrado(colab);
@@ -84,18 +84,18 @@ public class ColaboradorService {
     }
 
     private void verificarEmailCadastrado(ColaboradorDTO colab) {
-        if(repository.buscarPorEmail(colab.getEmail()).isPresent()){
+        if (repository.buscarPorEmail(colab.getEmail()).isPresent()) {
             throw new RegraNegocioException("Esse E-mail já existe em outro Colaborador!");
         }
     }
 
     private void verificarCPFCadastrado(ColaboradorDTO colab) {
-        if(Objects.nonNull(findByCPF(colab))) {
+        if (Objects.nonNull(findByCPF(colab))) {
             throw new DataIntegratyViolationException("CPF Já Cadastrado");
         }
     }
 
-    private void salvarCompetencias(Colaborador colaborador, List<CadastrarCompetenciaDTO> competencias){
+    private void salvarCompetencias(Colaborador colaborador, List<CadastrarCompetenciaDTO> competencias) {
         List<Integer> idsCompetencias = new ArrayList<>(Collections.singletonList(-1));
         idsCompetencias.addAll(competencias.stream().map(CadastrarCompetenciaDTO::getId).collect(Collectors.toList()));
         colaboradorCompetenciaRepository.excluirCompetenciaColaborador(colaborador.getId(), idsCompetencias);
@@ -114,8 +114,8 @@ public class ColaboradorService {
         colaboradorCompetenciaRepository.saveAll(colaboradorCompetencias);
     }
 
-    public void deletar(Integer id){
-        if(repository.findById(id).isPresent()) {
+    public void deletar(Integer id) {
+        if (repository.findById(id).isPresent()) {
             List<Colaborador> instrutoresComTurma = turmaColaboradorCompetenciaRepository.procurarInstrutoresEmTurma()
                     .stream().filter(colaborador -> (colaborador.getId().equals(id))).collect(Collectors.toList());
             verificarColaboradorEmTurma(instrutoresComTurma);
@@ -124,12 +124,12 @@ public class ColaboradorService {
     }
 
     private void verificarColaboradorEmTurma(List<Colaborador> instrutoresComTurma) {
-        if(! instrutoresComTurma.isEmpty() ) {
+        if (!instrutoresComTurma.isEmpty()) {
             throw new RegraNegocioException("O Colaborador Está Ministrando uma Turma");
         }
     }
 
-    public ColaboradorDTO atualizar(ColaboradorDTO c){
+    public ColaboradorDTO atualizar(ColaboradorDTO c) {
         Colaborador colaborador = colaboradorMapper.toEntity(c);
         repository.save(colaborador);
         salvarCompetencias(colaborador, c.getCompetencia());
@@ -138,7 +138,7 @@ public class ColaboradorService {
 
     public List<ColaboradorDTO> buscarColaboradorPraAplicarCompeteciaPorId(@PathVariable Integer idCompetencia) {
         Optional<Colaborador> obj = repository.findById(idCompetencia);
-        if(obj.isPresent())
+        if (obj.isPresent())
             return colaboradorMapper.toDto(colaboradorCompetenciaRepository.buscarColaboradorPraAplicarCompeteciaPorId(idCompetencia));
         else
             throw new NoSuchElementException(ConstantUtils.ERRO_ENCONTRAR_IDCOMPETENCIA);

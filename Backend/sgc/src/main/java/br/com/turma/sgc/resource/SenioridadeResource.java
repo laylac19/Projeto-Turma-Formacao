@@ -16,12 +16,12 @@ public class SenioridadeResource {
     private final SenioridadeService service;
 
     @GetMapping
-    public ResponseEntity<List<SenioridadeDTO>> procurarTodos(){
+    public ResponseEntity<List<SenioridadeDTO>> procurarTodos() {
         return ResponseEntity.ok().body(service.listarTodasSenioridades());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<SenioridadeDTO> procurarPorId(@PathVariable int id){
+    public ResponseEntity<SenioridadeDTO> procurarPorId(@PathVariable int id) {
         return ResponseEntity.ok().body(service.buscarSenioridadePorId(id));
     }
 

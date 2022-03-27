@@ -30,42 +30,42 @@ public class ColaboradorResource {
     private final ColaboradorService service;
 
     @GetMapping
-    public ResponseEntity<List<ColaboradorListDTO>> procurarTodos(){
+    public ResponseEntity<List<ColaboradorListDTO>> procurarTodos() {
         return ResponseEntity.ok().body(service.procurarTodos());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ColaboradorDTO> procurarPorId(@PathVariable int id){
+    public ResponseEntity<ColaboradorDTO> procurarPorId(@PathVariable int id) {
         return ResponseEntity.ok().body(service.procurarPorId(id));
     }
 
     @GetMapping("competencias/{idCompetencia}")
-    public ResponseEntity<List<ColaboradorBuscaDTO>> buscarColaboradoresPorCompetencia(@PathVariable    ("idCompetencia") Integer idCompetencia){
+    public ResponseEntity<List<ColaboradorBuscaDTO>> buscarColaboradoresPorCompetencia(@PathVariable("idCompetencia") Integer idCompetencia) {
 
         return ResponseEntity.ok().body(service.buscarColaboradoresPorCompetencia(idCompetencia));
 
     }
 
     @GetMapping("colaborador/{idColaborador}")
-    public ResponseEntity<CompetenciaColaboradorDTO> buscarColaborador(@PathVariable("idColaborador") Integer idColaborador){
+    public ResponseEntity<CompetenciaColaboradorDTO> buscarColaborador(@PathVariable("idColaborador") Integer idColaborador) {
 
         return ResponseEntity.ok().body(service.buscarColaborador(idColaborador));
 
     }
 
     @PostMapping
-    public ResponseEntity<ColaboradorDTO> inserir(@RequestBody @Valid ColaboradorDTO colab){
-        return ResponseEntity.created(URI.create("./api/colaborador")) .body(service.inserir(colab));
+    public ResponseEntity<ColaboradorDTO> inserir(@RequestBody @Valid ColaboradorDTO colab) {
+        return ResponseEntity.created(URI.create("./api/colaborador")).body(service.inserir(colab));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable @Valid Integer id){
+    public ResponseEntity<Void> deletar(@PathVariable @Valid Integer id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping
-    public ResponseEntity<ColaboradorDTO> atualizar(@RequestBody @Valid ColaboradorDTO c){
+    public ResponseEntity<ColaboradorDTO> atualizar(@RequestBody @Valid ColaboradorDTO c) {
         return ResponseEntity.ok().body(service.atualizar(c));
     }
 

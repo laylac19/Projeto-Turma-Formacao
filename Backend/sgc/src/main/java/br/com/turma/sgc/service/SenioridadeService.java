@@ -22,7 +22,7 @@ public class SenioridadeService {
 
     public SenioridadeDTO buscarSenioridadePorId(Integer id) {
         Senioridade senioridade = repository.findById(id)
-                .orElseThrow(()-> new RegraNegocioException("Senioridade não encontrada"));
+                .orElseThrow(() -> new RegraNegocioException("Senioridade não encontrada"));
         return mapper.toDto(senioridade);
     }
 
